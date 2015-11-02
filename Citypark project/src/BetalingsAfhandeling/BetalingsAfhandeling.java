@@ -15,7 +15,9 @@ public class BetalingsAfhandeling {
 	public void init(){
 		connection = new Database();
 		conn = connection.getConnection();
-		System.out.println("Wtf? werkt het?");
+		if(conn == null){
+		System.out.println("Hij is null");
+		}
 	}
 	public int rekentest(){
 		if(conn == null){

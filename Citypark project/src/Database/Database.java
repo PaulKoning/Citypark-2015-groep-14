@@ -12,12 +12,13 @@ public class Database{
 			if(conn == null){
 				System.out.println("Conn in Class Db = null");
 			}
+			return conn;
 		}
 		catch(Exception x)
 		{
 		x.printStackTrace();	
 		}
-		return conn;
+		return null;
 }	
 }
 //Create a statement
