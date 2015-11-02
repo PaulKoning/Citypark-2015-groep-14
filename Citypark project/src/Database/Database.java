@@ -2,13 +2,16 @@ package Database;
 import java.sql.*;
 
 public class Database{ 
-	private Connection conn;
+	//private Connection conn;
 	public Database(){	
 	};
-	public Connection giveConnection(){
+	public Connection getConnection(){
 		try{
 			//Get Connection
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/citypark", "root", "");
+			if(conn == null){
+				System.out.println("Conn in Class Db = null");
+			}
 		}
 		catch(Exception x)
 		{
