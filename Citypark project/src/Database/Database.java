@@ -1,10 +1,10 @@
 package Database;
 import java.sql.*;
 
-class Database{ 
+public class Database{ 
 	private Connection conn;
-	public static void main(String[] args){
-	}
+	public Database(){	
+	};
 	public Connection giveConnection(){
 		try{
 			//Get Connection
