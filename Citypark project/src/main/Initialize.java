@@ -7,6 +7,5 @@ public class Initialize {
 	
 	public Initialize() {
 		scheduler = new BetalingScheduler();
-		//scheduler.BetalingScheduler();
 	}
 }
