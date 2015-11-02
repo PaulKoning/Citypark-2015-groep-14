@@ -1,3 +1,4 @@
+package nl.hanze.promagreader.decoder;
 public class Decoder {
 	public String decodeLastValue(String s) {
 		int j=s.lastIndexOf("CR");
