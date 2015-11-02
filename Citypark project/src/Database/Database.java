@@ -2,7 +2,7 @@ package Database;
 import java.sql.*;
 
 public class Database{ 
-	//private Connection conn;
+	private Connection conn;
 	public Database(){	
 	};
 	public Connection getConnection(){
