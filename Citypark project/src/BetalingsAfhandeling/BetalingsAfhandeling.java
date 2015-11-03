@@ -86,6 +86,9 @@ public class BetalingsAfhandeling {
 		Timestamp midnight = Timestamp.valueOf("'"+/*Variabele met actuele datum+*/"'00:00:00.0");
 		Timestamp morning = Timestamp.valueOf("06:00:00.0");//Same^
 		Timestamp evening = Timestamp.valueOf("20:00:00.0");//Same^
+		//PAUL!!! EEN ADHOC KLANT KAN NOOIT LANGER DAN 10 UUR STAAN!!!!!!
+		//ALS JE OVER EEN DAG HEEN SKIPT HOEF JE ALLEEN MAAR DE DAG VAN 
+		//DE VARIABELEN: midnight, morning en evening TE INCREMENTEN!
 		if((timeTemp.after(midnight)&&timeTemp.before(morning))||
 		(timeTemp.after(evening)&&(timeTemp.before(midnight)))&&
 		(!"Sun".equals(checkDay(calTemp.get(Calendar.DAY_OF_WEEK))) ||  !"Sat".equals(checkDay(calTemp.get(Calendar.DAY_OF_WEEK))))){
