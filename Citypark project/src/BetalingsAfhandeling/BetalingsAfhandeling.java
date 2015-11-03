@@ -17,33 +17,22 @@ public class BetalingsAfhandeling {
 	private Timestamp start;
 	private Timestamp finish;
     private Calendar cal;
+    public double bedrag;
 	
 	public BetalingsAfhandeling(){
 		init();
-		rekentest();
+		firstQuery();
 	}
 	
 	public void init(){
 		connection = new Database();
 		conn = connection.getConnection();
 	}
-	public void rekentest(){
-		/*try {
-			Statement stat = conn.createStatement();
-			ResultSet res = stat.executeQuery("Select * FROM gebruiker");
-			while(res.next()){
-				System.out.println(res.getString("voornaam"));
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
+	public void firstQuery(){
 		connection.query("Select Begintijd, Eindtijd FROM Inrijden WHERE Pas_Pas_ID = 1315");
 		list = connection.getResult();		
 		for(int i = 0; i < list.size(); i++) {   
 			nextInc((Timestamp)list.get(i).get("Begintijd"), (Timestamp)list.get(i).get("Eindtijd"));
-			 
 		}
 	}
 	public void nextInc(Timestamp begin, Timestamp eind){
@@ -52,12 +41,10 @@ public class BetalingsAfhandeling {
 		finish = eind;
         cal = Calendar.getInstance();
         cal.setTimeInMillis(start.getTime());
-
-        System.out.println("Startijd begin "+start);        
         start = Timestamp.valueOf(sdf.format(cal.getTime()));
         
+        System.out.println("Startijd begin "+start);        
         while(!(finish.before(start))){
-        	System.out.println(tariefZone(start, cal));
         	cal.add(Calendar.SECOND, 1800);
         	start = Timestamp.valueOf(sdf.format(cal.getTime()));
         }
@@ -67,9 +54,10 @@ public class BetalingsAfhandeling {
 	
 	public HashMap<String, Double> getTarief(){
 		int zone = tariefZone(start, cal);
-		connection.query("Select tarief_id, bedragpuur, max FROM '"+zone+"' ");
+		connection.query("Select tarief_id, bedragpuur, max FROM '"+zone+"'");
 		list = connection.getResult();
 		HashMap<String, Double> tarief = new HashMap<String, Double>();
+		
 		for(int i = 0; i < list.size(); i++) { 
 			tarief.put("tarief_id", (Double)list.get(i).get("tarief_id"));
 			tarief.put("bedragpuur", (Double)list.get(i).get("bedragpuur"));
@@ -80,10 +68,8 @@ public class BetalingsAfhandeling {
 	public int tariefZone(Timestamp t, Calendar c){
 		Timestamp timeTemp = t;
 		Calendar calTemp = c;
-		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-		Date date;
 		int tariefZone = 0;
-		Timestamp midnight = Timestamp.valueOf("'"+/*Variabele met actuele datum+*/"'00:00:00.0");
+		Timestamp midnight = Timestamp.valueOf("'"+/*Variabele met datum van inrijden+*/"'00:00:00.0");
 		Timestamp morning = Timestamp.valueOf("06:00:00.0");//Same^
 		Timestamp evening = Timestamp.valueOf("20:00:00.0");//Same^
 		//PAUL!!! EEN ADHOC KLANT KAN NOOIT LANGER DAN 10 UUR STAAN!!!!!!
@@ -99,7 +85,7 @@ public class BetalingsAfhandeling {
 				&& (timeTemp.after(morning)&&(timeTemp.before(evening)))){
 			tariefZone = 2;
 		}
-		return 0;
+		return tariefZone;
 	}
 	public String checkDay(int a){
 		int dcount = a;
@@ -124,11 +110,7 @@ public class BetalingsAfhandeling {
 		}
 		return day;
 	}
-	public int checkTarief(int tijd){
-		
-		return 0;
-	}
-	public int getBetaling(){
-		return 0;
+	public double getBetaling(){
+		return bedrag;
 	}
 }
