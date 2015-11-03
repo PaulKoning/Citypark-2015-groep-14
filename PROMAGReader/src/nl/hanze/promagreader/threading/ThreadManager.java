@@ -20,12 +20,15 @@ public class ThreadManager extends Thread {
 	@Override
 	public void run() {
 		while(true) {
+			
 			try {
 				String s=in.getBuffer();
+				
 				if(s!=null) { 
 					main.setText(s);
 					main.setID(dec.decodeLastValue(main.getText()));
 				}
+				
 				Thread.sleep(pollinterval);
 			} catch (Exception e) {
 				e.printStackTrace();

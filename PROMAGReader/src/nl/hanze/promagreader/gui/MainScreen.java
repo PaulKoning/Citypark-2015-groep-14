@@ -51,7 +51,6 @@ public class MainScreen extends JFrame implements ActionListener {
 		version.setBounds(540, 210, 80, 30);
 		clear.setBounds(540, 260, 80, 30);
 		id.setBounds(540, 310, 80, 30);
-
 		area.setBounds(10,10, 520, 470);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
