@@ -57,7 +57,7 @@ public class BetalingsAfhandeling {
         start = Timestamp.valueOf(sdf.format(cal.getTime()));
         
         while(!(finish.before(start))){
-        	
+        	System.out.println(tariefZone(start, cal));
         	cal.add(Calendar.SECOND, 1800);
         	start = Timestamp.valueOf(sdf.format(cal.getTime()));
         }
@@ -82,16 +82,19 @@ public class BetalingsAfhandeling {
 		Calendar calTemp = c;
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		Date date;
-		try {
-			date = (Date) dateFormat.parse("00:00:00");
-			long time = date.getTime();
-			new Timestamp(time);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(true){
-			
+		int tariefZone = 0;
+		Timestamp midnight = Timestamp.valueOf("'"+/*Variabele met actuele datum+*/"'00:00:00.0");
+		Timestamp morning = Timestamp.valueOf("06:00:00.0");//Same^
+		Timestamp evening = Timestamp.valueOf("20:00:00.0");//Same^
+		if((timeTemp.after(midnight)&&timeTemp.before(morning))||
+		(timeTemp.after(evening)&&(timeTemp.before(midnight)))&&
+		(!"Sun".equals(checkDay(calTemp.get(Calendar.DAY_OF_WEEK))) ||  !"Sat".equals(checkDay(calTemp.get(Calendar.DAY_OF_WEEK))))){
+			tariefZone = 1;	
+		}else if("Sun".equals(checkDay(calTemp.get(Calendar.DAY_OF_WEEK))) || "Sat".equals(checkDay(calTemp.get(Calendar.DAY_OF_WEEK)))){
+			tariefZone = 3;
+		}else if((!"Sun".equals(checkDay(calTemp.get(Calendar.DAY_OF_WEEK))) ||  !"Sat".equals(checkDay(calTemp.get(Calendar.DAY_OF_WEEK))))
+				&& (timeTemp.after(morning)&&(timeTemp.before(evening)))){
+			tariefZone = 2;
 		}
 		return 0;
 	}
