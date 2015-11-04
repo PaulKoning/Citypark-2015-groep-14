@@ -1,6 +1,11 @@
 <?php
-require_once("db_connection.php");
-    ?>
+
+// Als je al ingelogd bent wordt je naar de homepage gestuurd
+if(isset($_SESSION['username'])) {
+    	echo '<meta http-equiv="refresh" content="0; url=/index.php" />'
+}
+?> 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -44,20 +49,20 @@ require_once("db_connection.php");
 	</ul>
 	</div>
 	<div class="col2">
-	<h1>About Us</h1>
+	<h1>Inloggen</h1>
 		</div>
         <h1>Login to Web App</h1>
-        <form method="post" action="index.html">
-            <p><input type="text" name="login" value="" placeholder="Username or Email"></p>
-            <p><input type="password" name="password" value="" placeholder="Password"></p>
-            <p class="remember_me">
-                <label>
-                    <input type="checkbox" name="remember_me" id="remember_me">
-                    Remember me on this computer
-                </label>
-            </p>
-            <p class="submit"><input type="submit" name="commit" value="Login"></p>
-        </form>
+
+
+ <center><table border=0>
+<form method=POST ACTION=ingelogd.php> 
+   <tr>
+<td>Uw gebruikersnaam: </td> <td><INPUT TYPE="text" NAME="gebruiker" SIZE="34"></td><br></tr>
+<tr><td>Wachtwoord:  </td><td><INPUT TYPE="password" NAME="wachtwoord" SIZE="34"></td><br> <br></tr>
+<tr><td><button type = "submit">Inloggen</button></td></tr></form></table></center>
+
+
+
         </br>
         </br>
 	</div>
@@ -67,16 +72,3 @@ require_once("db_connection.php");
 </div>
 <div class="clearing"></div>
 <div class="footer-wrapper">
-
-
-
-
-</div>
-<!--- footer-wrapper div end -->
-<div class="footer-strip-wrapper">
-    <div class="footer-strip">
-        <p>Copyright (c) 2015 CityPark. All rights reserved.</p>
-    </div>
-</div>
-</body>
-</html>
