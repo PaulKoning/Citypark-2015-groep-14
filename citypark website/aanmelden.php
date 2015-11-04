@@ -1,6 +1,12 @@
 <?php
 include ("include/dbconnect.php");
+include ("include/sessions.php");
+// Als je al ingelogd bent wordt je naar de homepage gestuurd
+if(isset($_SESSION['username'])) {
+    	echo '<meta http-equiv="refresh" content="0; url=/index.php" />'
+}
 ?>
+
 <head>
     <title>Registratie</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -16,8 +22,9 @@ include ("include/dbconnect.php");
 
             <div class="menu">
                 <ul>
-                    <li><a class="active" href="index.html">Home</a></li>
-                    <li><a href="inloggen.html">Inloggen</a></li>
+                    <li><a class="active" href="index.php">Home</a></li>
+                    <li><a href="inloggen.php">Inloggen</a></li>
+                    
 
                 </ul>
             </div>

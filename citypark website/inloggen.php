@@ -1,5 +1,5 @@
 <?php
-
+include ("include/sessions.php");
 // Als je al ingelogd bent wordt je naar de homepage gestuurd
 if(isset($_SESSION['username'])) {
     	echo '<meta http-equiv="refresh" content="0; url=/index.php" />'
@@ -27,8 +27,11 @@ if(isset($_SESSION['username'])) {
             <div class="menu">
                 <ul>
                     <li><a class="active" href="index.php">Home</a></li>
+                    <?php 
                     <li><a href="inloggen.php">Inloggen</a></li>
                     <li><a href="aanmelden.php">Aanmelden</a></li>
+                    <li><a href="inloggen.php">Uitloggen</a></li>
+                    ?>
 
                 </ul>
             </div>

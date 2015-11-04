@@ -1,14 +1,9 @@
 <?php
 include ("include/dbconnect.php");
+include ("include/sessions.php");
 
-$query  = "SELECT * FROM `gebruiker` WHERE `Voornaam` = 'Jessica'";
-$result = mysqli_query($mysqli, $query);
-//Test if there was a query error
-if (!$result) {
-die("Database query failed.");
-}
 
-    ?>
+?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -30,10 +25,22 @@ die("Database query failed.");
 
             <div class="menu">
                 <ul>
-                    <li><a class="active" href="index.php">Home</a></li>
-                    <li><a href="inloggen.php">Inloggen</a></li>
-                    <li><a href="aanmelden.php">Aanmelden</a></li>
-
+                
+                
+                <?php
+                
+                //CODE BY JENS
+                
+                echo '<li><a class="active" href="index.php">Home</a></li>';
+            	
+            	if(!isset($_SESSION['username'])) { // Als je niet bent ingelogd wordt dit weergegeven
+            	echo ' 	<li><a href="inloggen.php">Inloggen</a></li>
+                    	<li><a href="aanmelden.php">Aanmelden</a></li>';
+                }
+                if(isset($_SESSION['username'])) {
+                		echo '<li><a href="uitloggen.php">Uitloggen</a></li>';
+                }
+				?>
                 </ul>
             </div>
         </div>
@@ -59,13 +66,7 @@ die("Database query failed.");
             De nummer één parkeergarage van Groningen!</br>
             Je vind ons onder de vismarkt.</br>
             Maak snel een account aan en maak gebruik van voordelige abonnementstarieven.</br>
-                <?php
-                while($subject1 = mysqli_fetch_assoc($result)) {
-                    echo $subject1["Voornaam"];
-                    echo "</br>";
-            }
 
-                ?>
 
 
 
