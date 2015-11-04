@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Template-24</title>
+<title>CityPark Parking project</title>
 <link rel="stylesheet" type="text/css" href="css/styles.css"/>
 <link href='http://fonts.googleapis.com/css?family=Playfair+Display|Pontano+Sans' rel='stylesheet' type='text/css'>
 </head>

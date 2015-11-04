@@ -1,17 +1,15 @@
 <?php // Databaseconnectie opzetten
 
-$dbhost = "localhost"; // Bij oplevering wijzigen naar 192.168.2.100 (Ip-adres v Citypark server)
-$dbuser = "root";  
-$dbpass = "";  
-$dbname = "Citypark";  
-$connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);  
 
-// Testen of de verbinding werkt
+$host = "localhost";
+$db = "citypark";  //database name
+$user = "root"; // user
+$pass = ""; // pass
 
- if(mysqli_connect_errno()) {    
-	die("Database connection failed: " .          
-		mysqli_connect_error() .         
-	 	" (" . mysqli_connect_errno() . ")"    
-	);  
+// my php5.5 method of connecting to database
+$mysqli = new mysqli("$host", "$user", "$pass", "$db");
+if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+    exit();
 }
-?>
+    ?>
