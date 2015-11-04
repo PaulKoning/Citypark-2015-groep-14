@@ -1,17 +1,12 @@
 <?php
-require_once("db_connection.php");
-    ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-<html>
+include ("include/dbconnect.php");
+?>
 <head>
+    <title>Registratie</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>CityPark Parking Project</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>
-    <link href='http://fonts.googleapis.com/css?family=Playfair+Display|Pontano+Sans' rel='stylesheet' type='text/css'>
 </head>
-<body>
+    <body>
 <div class="header-wrapper">
     <div class="header">
         <div class="header-content">
@@ -21,10 +16,8 @@ require_once("db_connection.php");
 
             <div class="menu">
                 <ul>
-                    <li><a class="active" href="index.php">Home</a></li>
-                    <li><a href="inloggen.php">Inloggen</a></li>
-                    <li><a href="aanmelden.php">Aanmelden</a></li>
-
+                    <li><a class="active" href="index.html">Home</a></li>
+                    <li><a href="inloggen.html">Inloggen</a></li>
 
                 </ul>
             </div>
@@ -36,45 +29,94 @@ require_once("db_connection.php");
 <div class="cotainer">
     <div class="col-wrapper">
         <div class="col1 marRight">
-            <h1>Sub Menu</h1>
+            <h1>Menu</h1>
 
             <ul>
 
-                <li><a href="#">Quod maxime placeat facere possimus</a></li>
-                <li class="bdrBottom"><a href="#">Itaque earum rerum hic teneturenime</a></li>
+                <li><a href="#"></a></li>
+                <li class="bdrBottom"><a href="#"></a></li>
             </ul>
         </div>
-        <div class="col2">
-            <h1>About Us</h1>
-            <form tag="Create Logon">
-                <div align="center">
-                    Voornaam *: <input type="username" name="username" /></br>
-
-                    Achternaam *: <input type="surname" name="surname" /></br>
-
-                    Wachtwoord *: <input type="password" name="pwd" /></br>
-
-                    Geboortedatum *: <input type="date of birth" name="dob" /></br>
-
-                    E-mail *: <input type="email" name="email" /></br>
-
-                    Telefoon: <input type="telephone" name="tel" /></br>
-
-                    Adres *: <input type="address" name="add" /></br>
-
-                    postcode *: <input type="postcode" name="ptc" /></br>
-
-
-                    <input type="submit" value="Verstuur" />
-                </div>
+        <div id = "registratie">
+            <form method = "post">
+                <table>
+<td>Uw voornaam: </td><td><input type = "text", name = "naam"></td><tr>
+<td>Uw achternaam: </td><td><input type = "text", name = "achternaam"></td><tr>
+<td>Uw gebruikersnaam: </td><td><input type = "text", name = "gebruikersnaam"></td><tr>
+<td>Uw rekeningsnummer: </td><td><input type = "text", name = "reknummer"></td><tr>
+<td>Uw wachtwoord: </td><td><input type = "password" name = "wachtwoord"><i>Wachtwoord minimaal 6 tekens lang</i></td><tr>
+<td>Bevestig wachtwoord: </td><td><input type = "password" name = "bevestig_wachtwoord"></td><tr>
+<td>Adres: </td><td><input type = "text" name = "straat"></td><tr>
+<td>Postcode: </td><td><input type = "text" name = "postcode"></td><tr>
+<td>Woonplaats: </td><td><input type = "text" name = "woonplaats"></td><tr>
+<td>Telefoonnummer: </td><td><input type = "text" name = "tel_nr"></td><tr>
+<td>Email: </td><td><input type = "text" name = "email"></td><tr>
+<td><button type = "submit" name = "submit">Registreer</button></td>
+                </table>
             </form>
+        </div>    
+    </body>
+<?php // Controle op invoer van het registratie formulier
+if (isset($_POST["submit"])) {
+    if (empty($_POST["naam"]) || is_numeric($_POST["naam"])) {
+        echo "Uw naam is niet juist ingevuld" . "<br/>";
+        } else { 
+        $naam = $_POST["naam"];
+	$achternaam = $_POST["achternaam"];
+	$gebruikersnaam = $_POST["gebruikersnaam"];
+	$rekeningsnummer = $_POST["reknummer"];
+        }
+    if ($_POST["wachtwoord"] == $_POST ["bevestig_wachtwoord"]) {   
+        if (empty($_POST["wachtwoord"]) || strlen($_POST["wachtwoord"]) < 6 && strlen($_POST["wachtwoord"]) > 21) {
+            echo "Uw heeft uw wachtwoord niet juist ingevuld" . "<br/>";
+            } else { 
+            $wachtwoord = $_POST["wachtwoord"];
+            } 
+    } else {
+    echo "U heeft uw wachtwoord niet bevestigd" . "<br/>";
+    }
+    if (empty($_POST["straat"])) {
+        echo "Uw adres is niet juist ingevuld" . "<br/>";
+        } else { 
+        $straat = $_POST["straat"];
+        }
+     
+    if (empty($_POST["postcode"]) || !preg_match("/^[1-9]{1}[0-9]{3}[A-Z]{2}$/", $_POST["postcode"])) {
+        echo "Uw postcode is niet juist ingevuld" . "<br/>";
+        } else { 
+        $postcode = $_POST["postcode"];
+        }
+    if (empty($_POST["woonplaats"])) {
+        echo "Uw woonplaats is niet juist ingevuld" . "<br/>";
+        } else { 
+        $woonplaats = $_POST["woonplaats"];
+        }
 
+        $telefoonnummer = $_POST["tel_nr"];
+    if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {  
+        echo "Email is niet juist ingevuld" . "<br/>"; 
+        } else { 
+        $email = $_POST["email"];
+        }
+ 
+}
+ 
+if (isset($naam, $wachtwoord, $straat, $postcode, $woonplaats, $telefoonnummer, $email)) {
+    echo "Uw registratie is gelukt." . "<br/>";
+     
+    // SQL Query aanmaken voor gebruiker
+    $reg_klant = "INSERT INTO ";	
+    $reg_klant .= "Gebruiker ";
+    $reg_klant .= "(Voornaam, Achternaam, Rekeningsnummer, Adres, Woonplaats, Postcode, Telefoonnummer, Email, Wachtwoord, Gebruikersnaam, Gebruiker_niveau) ";
+    $reg_klant .= "VALUES ";
+    $reg_klant .= "('$naam', '$achternaam', '$rekeningsnummer', '$straat', '$woonplaats', '$postcode', '$telefoonnummer', '$email', '$wachtwoord', '$gebruikersnaam', 1)";
+     
+    $registratie = mysqli_query($connection,$reg_klant);
 
-        </div>
+}
 
-    </div>
-
-</div>
+?>
+<br>
 <div class="clearing"></div>
 <div class="footer-wrapper">
 
@@ -88,5 +130,3 @@ require_once("db_connection.php");
         <p>Copyright (c) 2015 CityPark. All rights reserved.</p>
     </div>
 </div>
-</body>
-</html>
