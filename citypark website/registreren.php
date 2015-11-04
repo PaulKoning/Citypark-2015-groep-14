@@ -3,8 +3,40 @@ include ("include/dbconnect.php");
 ?>
 <head>
     <title>Registratie</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
 </head>
     <body>
+<div class="header-wrapper">
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>CityPark Parking</h1>
+            </div>
+
+            <div class="menu">
+                <ul>
+                    <li><a class="active" href="index.html">Home</a></li>
+                    <li><a href="inloggen.html">Inloggen</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--- header-wrapper div end -->
+<div class="clearing"></div>
+<div class="cotainer">
+    <div class="col-wrapper">
+        <div class="col1 marRight">
+            <h1>Menu</h1>
+
+            <ul>
+
+                <li><a href="#"></a></li>
+                <li class="bdrBottom"><a href="#"></a></li>
+            </ul>
+        </div>
         <div id = "registratie">
             <form method = "post">
                 <table>
@@ -84,21 +116,17 @@ if (isset($naam, $wachtwoord, $straat, $postcode, $woonplaats, $telefoonnummer, 
 }
 
 ?>
+<br>
+<div class="clearing"></div>
+<div class="footer-wrapper">
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+<!--- footer-wrapper div end -->
+<div class="footer-strip-wrapper">
+    <div class="footer-strip">
+        <p>Copyright (c) 2015 CityPark. All rights reserved.</p>
+    </div>
+</div>
