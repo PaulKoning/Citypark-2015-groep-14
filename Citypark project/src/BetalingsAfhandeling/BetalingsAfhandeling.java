@@ -30,7 +30,6 @@ public class BetalingsAfhandeling {
 			e.printStackTrace();
 		}
 	}
-	
 	public void init(){
 		connection = new Database();
 		conn = connection.getConnection();
@@ -52,9 +51,7 @@ public class BetalingsAfhandeling {
         HashMap<String, Object> tarief;
         while(!(finish.before(start))){
         	tarief = getTarief();
-        	System.out.println(start);
-        	System.out.println(bedrag);
-        	System.out.println(list);
+        	//System.out.println("Verstreken tijd: "+hCount+" uur"+"Bedrag: "+bedrag);
 	        	if(bedrag < (double)tarief.get("max")){
 		        	bedrag += (double)tarief.get("bedragpuur")/2;
 		        	cal.add(Calendar.SECOND, 1800);
@@ -154,7 +151,6 @@ public class BetalingsAfhandeling {
 	}
 	public double getBetaling(){
 		bedrag = round(bedrag, 2);
-		System.out.println(bedrag);
 		return bedrag;
 	}
 }
