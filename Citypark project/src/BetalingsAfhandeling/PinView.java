@@ -19,7 +19,7 @@ public class PinView extends JFrame {
 	JLabel scherm;
 	private static final int REKENINGSID_CITYPARK = 1;
 	
-	public PinView(int rekeningsnummer, double bedrag) {
+	public PinView(final int rekeningsnummer, final double bedrag) {
 		pin = new String();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(300, 300));
