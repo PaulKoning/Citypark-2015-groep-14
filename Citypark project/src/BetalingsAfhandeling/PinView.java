@@ -7,18 +7,24 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class PinView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	String pin;
+	JLabel scherm;
 	
-	public PinView() {
+	public PinView(int rekeningsnummer) {
 		pin = new String();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(300, 300));
 		Container contents = getContentPane();
-		contents.setLayout(new GridLayout(4, 3));
-		
+		contents.setLayout(new GridLayout(5, 3));
+		contents.add(new JLabel(""));
+		scherm = new JLabel("", SwingConstants.CENTER);
+		contents.add(scherm);
+		contents.add(new JLabel(""));
 		for(int i = 1; i < 10; i++) {;
 			contents.add(createButton(i));
 		}
@@ -29,12 +35,14 @@ public class PinView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(pin.length() > 0) {
 					pin = pin.substring(0, pin.length() - 1);
+					scherm.setText("" + pin);
 				}
 			}
 		});
+		
 		corrButton.addActionListener(new ActionListener() {
-			//TODO: submit code
 			public void actionPerformed(ActionEvent e) {
+				//stuur naar bank
 			}
 		});
 		
@@ -52,13 +60,12 @@ public class PinView extends JFrame {
 	 * @returns JButton
 	 */
 	JButton createButton(int number) {
-		final int tmp = number;
 		JButton newButton = new JButton(String.valueOf(number));
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(pin.length() < 4) {
-					pin += String.valueOf(tmp);
-					System.out.println("wat");
+					pin += String.valueOf(number);
+					scherm.setText("" + pin);
 				}
 			}
 		});
