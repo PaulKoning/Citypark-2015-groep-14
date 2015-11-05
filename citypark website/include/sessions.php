@@ -11,4 +11,5 @@ $username = $_SESSION['username'];
 $userlevel = $_SESSION['userlevel'];
 $userid = $_SESSION['userid'];
 }
+// end of file
 ?>
