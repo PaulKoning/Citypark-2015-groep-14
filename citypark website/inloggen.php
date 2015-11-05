@@ -30,7 +30,6 @@ if(isset($_SESSION['username'])) {
                     <?php 
                     <li><a href="inloggen.php">Inloggen</a></li>
                     <li><a href="aanmelden.php">Aanmelden</a></li>
-                    <li><a href="inloggen.php">Uitloggen</a></li>
                     ?>
 
                 </ul>

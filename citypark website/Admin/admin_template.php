@@ -25,12 +25,23 @@ if(!isset($username) || $userlevel != 2 ) { // Level 2 = Admin
             <div class="menu">
                 <ul>
                     <li><a class="active" href="index.php">Home</a></li>
-                    <?php 
-                    <li><a href="../inloggen.php">Inloggen</a></li>
-                    <li><a href="../aanmelden.php">Aanmelden</a></li>
-                    <li><a href="../inloggen.php">Uitloggen</a></li>
-                    ?>
-
+                ###############################################################################
+                // Menu Code
+                <?php
+                
+                //CODE BY JENS
+                
+                echo '<li><a class="active" href="index.php">Home</a></li>';
+            	
+            	if(!isset($_SESSION['username'])) { // Als je niet bent ingelogd wordt dit weergegeven
+            	echo ' 	<li><a href="../inloggen.php">Inloggen</a></li>
+                    	<li><a href="../aanmelden.php">Aanmelden</a></li>';
+                }
+                if(isset($_SESSION['username'])) {
+                		echo '<li><a href="../uitloggen.php">Uitloggen</a></li>';
+                }
+				?>
+				################################################################################
                 </ul>
             </div>
         </div>
@@ -50,14 +61,14 @@ if(!isset($username) || $userlevel != 2 ) { // Level 2 = Admin
 	</ul>
 	</div>
 	<div class="col2">
-	
+			############################################################
 			<?PHP
 	
 				// HIER CODE PLAATSEN
 	
 	
 			?>
-	
+			#############################################################
 	
 	<br>
 <div class="clearing"></div>
