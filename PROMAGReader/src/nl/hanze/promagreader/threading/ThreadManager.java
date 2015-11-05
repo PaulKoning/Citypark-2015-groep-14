@@ -1,9 +1,8 @@
 package nl.hanze.promagreader.threading;
 
-import javax.swing.JTextArea;
 import nl.hanze.promagreader.gui.*;
 import nl.hanze.promagreader.decoder.*;
-import main.Initialize;
+import pasHerkenning.PasHerkenning;
 
 public class ThreadManager extends Thread {
 	private In in;//Instantie nodig voor input
@@ -31,7 +30,7 @@ public class ThreadManager extends Thread {
 				if(s!=null) { 
 					main.setText(s);					
 					main.setID(dec.decodeLastValue(main.getText()));
-					Initialize.pasHerkenning(s);	
+					PasHerkenning.pasHerkenning(s);	
 				}				
 				Thread.sleep(pollinterval);
 			} catch (Exception e) {
