@@ -2,15 +2,17 @@ package nl.hanze.promagreader.gui;
 
 import java.awt.event.*;
 import java.awt.*;
+
 import javax.swing.*;
+
 import nl.hanze.promagreader.threading.*;
 
 @SuppressWarnings("serial")
 public class MainScreen extends JFrame implements ActionListener {
 	private JButton beep, beeps, reset, name, version, clear;
-	private JTextField id;
+	public JTextField id;
 	private boolean colorToggle=false;
-	private JTextArea area;
+	public JTextArea area;
 	private Out out;
 	
 	public MainScreen(Out out) {
@@ -54,6 +56,7 @@ public class MainScreen extends JFrame implements ActionListener {
 		area.setBounds(10,10, 520, 470);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
