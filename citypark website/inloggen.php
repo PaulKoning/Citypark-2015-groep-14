@@ -2,7 +2,7 @@
 include ("include/sessions.php");
 // Als je al ingelogd bent wordt je naar de homepage gestuurd
 if(isset($_SESSION['username'])) {
-    	echo '<meta http-equiv="refresh" content="0; url=/index.php" />'
+    	echo '<meta http-equiv="refresh" content="0; url=/index.php" />';
 }
 ?> 
 
