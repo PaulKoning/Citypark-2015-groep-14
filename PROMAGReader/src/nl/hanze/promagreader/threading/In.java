@@ -43,7 +43,9 @@ public class In extends Thread {
 					byte b=(byte) i; //int naar byte casten
 					while(blocked) {} //wacht tot de buffer is vrijgegeven
 					buffer[max++]=b; //nieuwe byte aan de eerste vrije plaats in de buffer toevoegen
+					
 				}
+				
 				skip=false;
 			} catch(Exception e) {
 				e.printStackTrace();
