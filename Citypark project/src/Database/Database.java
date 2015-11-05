@@ -37,6 +37,16 @@ public class Database {
 		return true;
 	}
 	
+	public boolean update(String q) {
+		try {
+			Statement stat = conn.createStatement();
+			stat.executeUpdate(q);
+		} catch (SQLException e) {
+			return false;
+		}
+		return true;
+	}
+	
 	public ArrayList<Map<String, Object>> getResult() {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		HashMap<String, Object> row = null;
