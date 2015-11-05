@@ -58,6 +58,7 @@ public class PinView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(pin.length() < 4) {
 					pin += String.valueOf(tmp);
+					System.out.println("wat");
 				}
 			}
 		});
