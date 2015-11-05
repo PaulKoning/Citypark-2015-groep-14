@@ -6,17 +6,17 @@ import nl.hanze.promagreader.gui.*;
 import nl.hanze.promagreader.decoder.*;
 
 public class ThreadManager extends Thread {
-	private In in;
-	private MainScreen main;
+	private In in;//Instantie nodig voor input
+	private MainScreen main;//GUI
 	private long pollinterval;
 	private Decoder dec;
 	
 	
 	public ThreadManager(In in, MainScreen main, long pollinterval) {
 		this.in=in;
-		this.main=main;
-		this.pollinterval=pollinterval;
-		dec=new Decoder();
+		this.main=main;//Instantie van main
+		this.pollinterval=pollinterval;//
+		dec=new Decoder();//New Decoder to 
 		start();
 	}
 	
