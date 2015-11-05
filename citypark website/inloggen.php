@@ -27,10 +27,8 @@ if(isset($_SESSION['username'])) {
             <div class="menu">
                 <ul>
                     <li><a class="active" href="index.php">Home</a></li>
-                    <?php 
                     <li><a href="inloggen.php">Inloggen</a></li>
                     <li><a href="aanmelden.php">Aanmelden</a></li>
-                    ?>
 
                 </ul>
             </div>

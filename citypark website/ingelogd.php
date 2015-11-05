@@ -8,7 +8,6 @@ $passpost = $_POST["wachtwoord"];
 // Script die het inlogproces in werking stelt.
 $SQL = "SELECT Gebruikersnaam, Wachtwoord, Gebruiker_niveau, Gebruiker_ID FROM Gebruiker WHERE Gebruikersnaam = '$gebruikerpost'"; 
 
-echo $SQL;
 $result = mysqli_query($connection, $SQL);
 	if (mysqli_num_rows($result) > 0) {
 		$row = mysqli_fetch_assoc($result);
