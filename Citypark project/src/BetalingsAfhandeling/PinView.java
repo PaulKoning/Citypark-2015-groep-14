@@ -69,11 +69,12 @@ public class PinView extends JFrame {
 	 * @returns JButton
 	 */
 	JButton createButton(int number) {
+		final int tmp = number;
 		JButton newButton = new JButton(String.valueOf(number));
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(pin.length() < 4) {
-					pin += String.valueOf(number);
+					pin += String.valueOf(tmp);
 					scherm.setText("" + pin);
 				}
 			}

@@ -4,8 +4,8 @@
 	<classpathentry kind="src" path="lib"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.37-bin.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/PROMAGReader"/>
 	<classpathentry kind="lib" path="lib/axis.jar"/>
 	<classpathentry kind="lib" path="lib/jaxrpc.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PROMAGReader"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

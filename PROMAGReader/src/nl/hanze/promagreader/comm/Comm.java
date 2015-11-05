@@ -44,7 +44,7 @@ public class Comm {
                 if (portId.getName().equals(strPortName)) bFound=true; 
         }
 
-        if (!bFound) throw new Exception("Comm not found");
+        if (!bFound) throw new Exception("Comm not found: Reader niet aangesloten!");
         serialPort = (SerialPort) portId.open("comm", 2000);
         serialPort.setSerialPortParams(baudrate, databits, stopbits, parity);
         serialPort.setFlowControlMode(flowcontrol);
