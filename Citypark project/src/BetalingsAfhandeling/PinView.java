@@ -4,18 +4,22 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import bankclient.BankProxy;
+
 public class PinView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	String pin;
 	JLabel scherm;
+	private static final int REKENINGSID_CITYPARK = 1;
 	
-	public PinView(int rekeningsnummer) {
+	public PinView(int rekeningsnummer, double bedrag) {
 		pin = new String();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(300, 300));
@@ -40,9 +44,14 @@ public class PinView extends JFrame {
 			}
 		});
 		
-		corrButton.addActionListener(new ActionListener() {
+		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//stuur naar bank
+				BankProxy bank = new BankProxy();
+				try {
+					bank.transferMetPin(rekeningsnummer, REKENINGSID_CITYPARK, bedrag, Integer.parseInt(pin));
+				} catch (NumberFormatException | RemoteException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		
