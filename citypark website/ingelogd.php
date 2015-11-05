@@ -14,6 +14,7 @@ $result = mysqli_query($connection, $SQL);
 		$row = mysqli_fetch_assoc($result);
 		$passindb = $row['Wachtwoord'];
 		$userlevel = $row['Gebruiker_niveau'];
+		$userid = $row['Gebruiker_ID'];
 		if ($passindb != $passpost) {
 			echo "U bent nog niet geregistreerd, of je hebt een foutief gebruikersnaam/wachtwoord ingevoerd" ;
 			echo "<br>", "Ga terug naar de inlogpage";
@@ -23,6 +24,7 @@ $result = mysqli_query($connection, $SQL);
 			echo '<meta http-equiv="refresh" content="0; url=index.php" />';
 			session_start();
 			$_SESSION['username'] = $gebruikerpost;
+			$_SESSION['userid'] = $userid;
 			$_SESSION['userlevel'] = $userlevel;
 		}
 	} 

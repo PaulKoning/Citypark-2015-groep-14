@@ -10,10 +10,12 @@ echo '<link rel="stylesheet" type="text/css" href="css/styles.css"/>'; // CSS Fi
 
 if(!isset($username) || $userlevel != 2 ) { // Level 2 = Admin
     	echo '<meta http-equiv="refresh" content="0; url=../index.php" />'
-}	
+}
+
+//hier begint html ok	
 ?> 
 
-// Template
+
 <body>
 <div class="header-wrapper">
 	<div class="header">

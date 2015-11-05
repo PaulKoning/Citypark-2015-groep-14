@@ -9,5 +9,6 @@ echo "U bent ingelogd als: ", $_SESSION['username'];
 
 $username = $_SESSION['username'];
 $userlevel = $_SESSION['userlevel'];
+$userid = $_SESSION['userid'];
 }
 ?>
