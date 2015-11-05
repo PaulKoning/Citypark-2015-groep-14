@@ -1,19 +1,12 @@
 package main;
-import Database.Database;
-import scheduler.BetalingScheduler;
-import BetalingsAfhandeling.BetalingsAfhandeling;
-<<<<<<< HEAD
-import BetalingsAfhandeling.PinView;
-
-=======
 import nl.hanze.promagreader.main.Runner;
->>>>>>> origin/master
+import BetalingsAfhandeling.BetalingsAfhandeling;
+import Database.Database;
 
 public class Initialize {
 	public Initialize() {
-		String [] args = new String[2];
+		String [] args = new String[1];
 	    args[0] = "hello";
-	    args[1] = "every";
 		try{
 		//1315 is een tijdelijke testwaarde voor de constructor
 		Double Test = new BetalingsAfhandeling(1315).getBetaling();
