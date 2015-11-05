@@ -6,7 +6,8 @@ import BetalingsAfhandeling.BetalingsAfhandeling;
 public class Initialize {
 	public Initialize() {
 		try{
-		new BetalingsAfhandeling();
+		//1315 is een tijdelijke testwaarde voor de constructor
+		new BetalingsAfhandeling(1315);
 		//new BetalingScheduler();
 		new Database();
 		}

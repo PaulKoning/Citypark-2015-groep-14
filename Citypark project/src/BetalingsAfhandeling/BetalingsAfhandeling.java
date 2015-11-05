@@ -17,11 +17,18 @@ public class BetalingsAfhandeling {
 	private Timestamp start;
 	private Timestamp finish;
     private Calendar cal;
+    private double hCount= 0.00;
     public double bedrag = 0.00;
+    private int pasID;
 	
-	public BetalingsAfhandeling(){
-		init();
-		firstQuery();
+	public BetalingsAfhandeling(int ID){
+		try{	
+			pasID = ID;
+			init();
+			firstQuery();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void init(){
@@ -29,7 +36,7 @@ public class BetalingsAfhandeling {
 		conn = connection.getConnection();
 	}
 	public void firstQuery(){
-		connection.query("Select Begintijd, Eindtijd FROM Inrijden WHERE Pas_Pas_ID = 1315");
+		connection.query("Select Begintijd, Eindtijd FROM Inrijden WHERE Pas_Pas_ID = '"+pasID+"' ORDER BY Begintijd DESC");
 		list = connection.getResult();		
 		for(int i = 0; i < list.size(); i++) {   
 			nextInc((Timestamp)list.get(i).get("Begintijd"), (Timestamp)list.get(i).get("Eindtijd"));
@@ -43,30 +50,31 @@ public class BetalingsAfhandeling {
         cal.setTimeInMillis(start.getTime());
         start = Timestamp.valueOf(sdf.format(cal.getTime()));
         HashMap<String, Object> tarief;
-        System.out.println("Startijd begin "+start);        
         while(!(finish.before(start))){
         	tarief = getTarief();
-        	if(bedrag < (double)tarief.get("max")){
-        	bedrag += (double)tarief.get("bedragpuur")/2;
-        	cal.add(Calendar.SECOND, 1800);
-        	start = Timestamp.valueOf(sdf.format(cal.getTime()));
-        	//}else{
-        		//break;
-        	//}
-        }
+        	System.out.println(start);
+        	System.out.println(bedrag);
+        	System.out.println(list);
+	        	if(bedrag < (double)tarief.get("max")){
+		        	bedrag += (double)tarief.get("bedragpuur")/2;
+		        	cal.add(Calendar.SECOND, 1800);
+		        	start = Timestamp.valueOf(sdf.format(cal.getTime()));
+	        	}
+
+        	hCount = hCount + 0.5;
         }
         getBetaling();
 	}
-	
 	public HashMap<String, Object> getTarief(){
 		int zone = tariefZone(start, cal);
+		HashMap<String, Object> tarief = new HashMap<String, Object>();
+		if(tarief.isEmpty()){
 		connection.query("Select tarief_id, bedragpuur, max FROM tarief where tarief_id = '"+zone+"'");
 		list = connection.getResult();
-		HashMap<String, Object> tarief = new HashMap<String, Object>();
-		
 		for(int i = 0; i < list.size(); i++) { 
 			tarief.put("bedragpuur", (double)list.get(i).get("bedragpuur"));
 			tarief.put("max", (double)list.get(i).get("max"));
+		}
 		}
 		return tarief;
 	}
@@ -93,7 +101,6 @@ public class BetalingsAfhandeling {
 			date = (Date) dateFormat.parse(dtevening);
 			dtevening = dateFormat.format(date);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Timestamp midnight = Timestamp.valueOf(dtmidnight);
@@ -140,10 +147,9 @@ public class BetalingsAfhandeling {
 	}
 	public static double round(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
-
-	    long factor = (long) Math.pow(10, places);
-	    value = value * factor;
-	    long tmp = Math.round(value);
+		    long factor = (long) Math.pow(10, places);
+		    value = value * factor;
+		    long tmp = Math.round(value);
 	    return (double) tmp / factor;
 	}
 	public double getBetaling(){
