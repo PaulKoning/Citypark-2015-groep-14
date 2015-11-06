@@ -4,7 +4,10 @@ import BetalingsAfhandeling.BetalingsAfhandeling;
 import Database.Database;
 
 public class Initialize {
-	public static Database database = new Database();
+    private static final String URL = "localhost:3306/citypark";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "";
+	public static Database database = new Database(URL, USERNAME, PASSWORD);
 	public Initialize() {
 		String [] args = new String[1];
 	    args[0] = "hello";
