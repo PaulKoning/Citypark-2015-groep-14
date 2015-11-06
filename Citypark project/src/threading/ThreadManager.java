@@ -29,7 +29,7 @@ public class ThreadManager extends Thread {
 				if(s!=null) { 
 					main.setText(s);					
 					main.setID(dec.decodeLastValue(main.getText()));
-					PasHerkenning.pasHerkenning(s);
+					System.out.println(PasHerkenning.pasHerkenning(s));
 				}				
 				Thread.sleep(pollinterval);
 			} catch (Exception e) {
