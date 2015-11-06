@@ -1,0 +1,41 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from BankService WSDL service -->
+
+  <service name="Bank" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://bank"/>
+      <parameter name="wsdlServiceElement" value="BankService"/>
+      <parameter name="schemaQualified" value="http://bank"/>
+      <parameter name="wsdlServicePort" value="Bank"/>
+      <parameter name="className" value="bank.BankSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="Bank"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="transfer" qname="operNS:transfer" xmlns:operNS="http://bank" returnQName="retNS:transferReturn" xmlns:retNS="http://bank" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:accountfrom" xmlns:pns="http://bank" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:accountto" xmlns:pns="http://bank" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:amount" xmlns:pns="http://bank" type="tns:double" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="transferMetPin" qname="operNS:transferMetPin" xmlns:operNS="http://bank" returnQName="retNS:transferMetPinReturn" xmlns:retNS="http://bank" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:accountfrom" xmlns:pns="http://bank" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:accountto" xmlns:pns="http://bank" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:amount" xmlns:pns="http://bank" type="tns:double" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:pin" xmlns:pns="http://bank" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="doCreditCheck" qname="operNS:doCreditCheck" xmlns:operNS="http://bank" returnQName="retNS:doCreditCheckReturn" xmlns:retNS="http://bank" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:accountnr" xmlns:pns="http://bank" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:amount" xmlns:pns="http://bank" type="tns:double" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="transferMetPin transfer doCreditCheck"/>
+
+  </service>
+</deployment>

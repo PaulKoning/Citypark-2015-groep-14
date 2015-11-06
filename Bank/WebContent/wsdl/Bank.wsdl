@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://bank" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://bank" xmlns:intf="http://bank" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://bank" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="transfer">
+    <complexType>
+     <sequence>
+      <element name="accountfrom" type="xsd:int"/>
+      <element name="accountto" type="xsd:int"/>
+      <element name="amount" type="xsd:double"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="transferResponse">
+    <complexType>
+     <sequence>
+      <element name="transferReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="transferMetPin">
+    <complexType>
+     <sequence>
+      <element name="accountfrom" type="xsd:int"/>
+      <element name="accountto" type="xsd:int"/>
+      <element name="amount" type="xsd:double"/>
+      <element name="pin" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="transferMetPinResponse">
+    <complexType>
+     <sequence>
+      <element name="transferMetPinReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="doCreditCheck">
+    <complexType>
+     <sequence>
+      <element name="accountnr" type="xsd:int"/>
+      <element name="amount" type="xsd:double"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="doCreditCheckResponse">
+    <complexType>
+     <sequence>
+      <element name="doCreditCheckReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="transferResponse">
+
+      <wsdl:part element="impl:transferResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="transferMetPinResponse">
+
+      <wsdl:part element="impl:transferMetPinResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="doCreditCheckRequest">
+
+      <wsdl:part element="impl:doCreditCheck" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="doCreditCheckResponse">
+
+      <wsdl:part element="impl:doCreditCheckResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="transferRequest">
+
+      <wsdl:part element="impl:transfer" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="transferMetPinRequest">
+
+      <wsdl:part element="impl:transferMetPin" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="Bank">
+
+      <wsdl:operation name="transfer">
+
+         <wsdl:input message="impl:transferRequest" name="transferRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:transferResponse" name="transferResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="transferMetPin">
+
+         <wsdl:input message="impl:transferMetPinRequest" name="transferMetPinRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:transferMetPinResponse" name="transferMetPinResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="doCreditCheck">
+
+         <wsdl:input message="impl:doCreditCheckRequest" name="doCreditCheckRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:doCreditCheckResponse" name="doCreditCheckResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="BankSoapBinding" type="impl:Bank">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="transfer">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="transferRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="transferResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="transferMetPin">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="transferMetPinRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="transferMetPinResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="doCreditCheck">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="doCreditCheckRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="doCreditCheckResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="BankService">
+
+      <wsdl:port binding="impl:BankSoapBinding" name="Bank">
+
+         <wsdlsoap:address location="http://localhost:8080/Bank/services/Bank"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
