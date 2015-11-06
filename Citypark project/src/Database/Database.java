@@ -34,7 +34,7 @@ public class Database {
 	 */
 	public Connection getConnection() {
 		try {
-			Connection conn = DriverManager.getConnection(url, user, password);
+			Connection conn = DriverManager.getConnection("jdbc:mysql://" + url, user, password);
 			if(conn == null) {
 				System.out.println("Conn in Class Db = null");
 			}
