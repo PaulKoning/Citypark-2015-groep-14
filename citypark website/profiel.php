@@ -1,6 +1,12 @@
 <?php
 include ("include/dbconnect.php");
-include ("include/sessions.php"); // Sessies
+include ("include/sessions.php");
+$query  = "SELECT * FROM `Gebruiker` WHERE `Gebruikersnaam` = '$username'";
+$result = mysqli_query($connection, $query);
+
+//Test if there was a query error
+if (!$result) {
+    die("Database query failed.");
 }
 
 ?>

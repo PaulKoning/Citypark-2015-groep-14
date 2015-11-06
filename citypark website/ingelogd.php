@@ -20,7 +20,7 @@ $result = mysqli_query($connection, $SQL);
 			echo '<form action="inloggen.php"><INPUT TYPE="submit" VALUE="Inlogpagina" return false;"></form>';
 		}
 		Else {
-			echo '<meta http-equiv="refresh" content="0; url=index.php" />';
+			echo '<meta http-equiv="refresh" content="0; url=profiel.php" />';
 			session_start();
 			$_SESSION['username'] = $gebruikerpost;
 			$_SESSION['userid'] = $userid;
