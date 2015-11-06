@@ -51,22 +51,11 @@ if(!isset($username) || $userlevel != 2 ) { // Level 2 = Admin
         </div>
     </div>
 </div>
-<!--- header-wrapper div end -->
-<div class="clearing"></div>
-<div class="cotainer">
-	<div class="col-wrapper">
-	<div class="col1 marRight">
-	<h1>Sub Menu</h1>
-	
-	<ul>
 
-	<li><a href="#">Quod maxime placeat facere possimus</a></li>
-	<li class="bdrBottom"><a href="#">Itaque earum rerum hic teneturenime</a></li>
-	</ul>
-	</div>
 	<div class="col2">
 
 			<?PHP
+
 			if(isset($_POST['gebruiker'])) { $gebruiker = $_POST['gebruiker']; }
 			
 			//Form voor opvragen gebruikers
@@ -78,13 +67,23 @@ if(!isset($username) || $userlevel != 2 ) { // Level 2 = Admin
 			</form>';
 			}
 			if(isset($gebruiker)) {
+			if(isset($_POST['blokkere'])) {
+				if($_POST['actief'] == 1) { $blokkatie = 0; }
+				if($_POST['actief'] == 0) { $blokkatie = 1; }
+			
+	$query2 = "UPDATE Pas SET Actief= $blokkatie WHERE Pas_ID =";
+	$query2 .= $_POST['pas_id'];
+
+				mysqli_query($connection, $query2);
+				}
+		
 			//query
 			$query = "SELECT Pas.Pas_ID, Pas.Pastype_Pastype_ID, Pas.Actief, Gebruiker.Voornaam,
 				  Gebruiker.Achternaam, Gebruiker.Adres, Gebruiker.Woonplaats, 					  Gebruiker.Gebruikersnaam  
 				  FROM Pas
 				  JOIN Gebruiker on Pas.Gebruiker_Gebruiker_ID = 					  Gebruiker.Gebruiker_ID
 			  	  WHERE Gebruiker.Achternaam LIKE '%$gebruiker%'"; 
-			echo $query;
+
 			$result = mysqli_query($connection, $query);
 				//Tabel Maken
 echo "<center><table border=1> 
@@ -102,26 +101,35 @@ echo "<center><table border=1>
 			while($subject = mysqli_fetch_assoc($result)) {
 			echo "<tr>", 
 			"<td>"; 			
-			echo "$subject['Pas.Pas_ID]";
+			echo $subject['Pas_ID'];
 			echo "</td>";
 			
 		// Pastype bepalen
-		if ($subject['Pas.Pastype_Pastype_ID'] == 1) { echo "<td>", "Abbonoment", "</td>"; }
-		if ($subject['Pas.Pastype_Pastype_ID'] == 2) { echo "<td>", "Ad-Hoc", "</td>"; }
-		if ($subject['Pas.Pastype_Pastype_ID'] == 3) { echo "<td>", "Lege Pas", "</td>"; }
-		if ($subject['Pas.Pastype_Pastype_ID'] == 4) { echo "<td>", "Bezoekerspas", "</td>"; }
+		if ($subject['Pastype_Pastype_ID'] == 1) { echo "<td>", "Abbonoment", "</td>"; }
+		if ($subject['Pastype_Pastype_ID'] == 2) { echo "<td>", "Ad-Hoc", "</td>"; }
+		if ($subject['Pastype_Pastype_ID'] == 3) { echo "<td>", "Lege Pas", "</td>"; }
+		if ($subject['Pastype_Pastype_ID'] == 4) { echo "<td>", "Bezoekerspas", "</td>"; }
 
 		// Actief bepalen
-		if ($subject['Pas.Actief'] == false) { echo "<td>", "Inactief", "</td>"; }
-		if ($subject['Pas.Actief'] == true) { echo "<td>", "Actief", "</td>"; }	
+		if ($subject['Actief'] == false) { echo "<td>", "Inactief", "</td>"; }
+		if ($subject['Actief'] == true) { echo "<td>", "Actief", "</td>"; }	
 		
 		// Verder met echoen van gegevens
-		echo "<td>", "$subject['Gebruiker.Voornaam']", "</td>";
-		echo "<td>", "$subject['Gebruiker.Achternaam']", "</td>";
-		echo "<td>", "$subject['Gebruiker.Adres']", "</td>";
-		echo "<td>", "$subject['Gebruiker.Woonplaats']", "</td>";
-		echo "<td>", "$subject['Gebruiker.Gebruikersnaam']", "</td>";	
+		echo "<td>", $subject['Voornaam'], "</td>";
+		echo "<td>", $subject['Achternaam'], "</td>";
+		echo "<td>", $subject['Adres'], "</td>";
+		echo "<td>", $subject['Woonplaats'], "</td>";
+		echo "<td>", $subject['Gebruikersnaam'], "</td>";	
+		
+		// Pas blokkeren
+		echo "<td>", '<form action="/admin/pas_blokkeren.php" method="post">' ;
+echo '<input type="submit" name="blokkere" value="(de)Blokkeren"> ';
+echo "<input type=hidden name=gebruiker value=".$gebruiker.">";
+echo "<input type=hidden name=actief value=".$subject['Actief'].">";
+echo "<input type=hidden name=pas_id value=".$subject['Pas_ID']."></form></td></tr>";
+		
 			}
+echo "</table></center>";
 }
 
 
@@ -137,7 +145,6 @@ echo "<center><table border=1>
 
 
 
-
 </div>
 <!--- footer-wrapper div end -->
 <div class="footer-strip-wrapper">
@@ -145,11 +152,6 @@ echo "<center><table border=1>
         <p>Copyright (c) 2015 CityPark. All rights reserved.</p>
     </div>
 </div>
-	
-	
-	
-	
-	
 	
 	
 	
