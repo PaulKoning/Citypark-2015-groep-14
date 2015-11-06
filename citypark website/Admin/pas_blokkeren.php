@@ -61,7 +61,7 @@ if(!isset($username) || $userlevel != 2 ) { // Level 2 = Admin
 			//Form voor opvragen gebruikers
 			if(!isset($gebruiker)){
 			echo '<form action="/admin/pas_blokkeren.php" method="post">
-			Gebruikersnaam: <input type="text" name="gebruiker">
+			Gedeelte v. Achternaam: <input type="text" name="gebruiker">
                 	<input type="submit" value="Opvragen">
 				
 			</form>';

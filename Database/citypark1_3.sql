@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `Citypark`.`Pas` (
   `Pastype_Pastype_ID` INT NOT NULL,
   `Actief` TINYINT(1) NOT NULL,
   `Gebruiker_Gebruiker_ID` INT NOT NULL,
+  `Cardid` VARCHAR(20),
   PRIMARY KEY (`Pas_ID`),
   UNIQUE INDEX `Pasnummer_UNIQUE` (`Pas_ID` ASC),
   INDEX `fk_Pas_Pastype1_idx` (`Pastype_Pastype_ID` ASC),
