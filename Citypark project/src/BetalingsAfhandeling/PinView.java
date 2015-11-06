@@ -48,7 +48,12 @@ public class PinView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				BankProxy bank = new BankProxy();
 				try {
-					bank.transferMetPin(rekeningsnummer, REKENINGSID_CITYPARK, bedrag, Integer.parseInt(pin));
+					if(bank.transferMetPin(rekeningsnummer, REKENINGSID_CITYPARK, bedrag, Integer.parseInt(pin))) {
+						scherm.setText("Geslaagd");
+					} else {
+						scherm.setText("Afgebroken");
+						pin = "";
+					}
 				} catch (NumberFormatException | RemoteException e1) {
 					e1.printStackTrace();
 				}
