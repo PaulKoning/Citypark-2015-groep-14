@@ -6,6 +6,7 @@ import java.io.*;
 import threading.In;
 import threading.Out;
 import gnu.io.*;
+import nl.hanze.promagreader.threading.*;
 
 public class Comm {
 	private String strPortName;

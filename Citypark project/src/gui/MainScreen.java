@@ -2,8 +2,11 @@ package gui;
 
 import java.awt.event.*;
 import java.awt.*;
+
 import javax.swing.*;
+
 import threading.Out;
+import nl.hanze.promagreader.threading.*;
 
 @SuppressWarnings("serial")
 public class MainScreen extends JFrame implements ActionListener {

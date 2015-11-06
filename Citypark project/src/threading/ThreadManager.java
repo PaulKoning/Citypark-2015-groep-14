@@ -2,6 +2,8 @@ package threading;
 
 import gui.MainScreen;
 import decoder.Decoder;
+import nl.hanze.promagreader.gui.*;
+import nl.hanze.promagreader.decoder.*;
 
 public class ThreadManager extends Thread {
 	private In in;//Instantie nodig voor input

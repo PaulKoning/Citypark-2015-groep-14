@@ -3,6 +3,9 @@ package mainReader;
 import threading.ThreadManager;
 import comm.Comm;
 import comm.CommSetting;
+import nl.hanze.promagreader.comm.*;
+import nl.hanze.promagreader.gui.*;
+import nl.hanze.promagreader.threading.*;
 import gnu.io.*;
 import gui.MainScreen;
 
