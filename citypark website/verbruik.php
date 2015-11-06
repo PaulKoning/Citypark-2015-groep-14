@@ -1,8 +1,13 @@
 <?php
 include ("include/dbconnect.php");
 include ("include/sessions.php"); // Sessies
-}
+$query  = " SELECT * FROM `gebruiker`   ";
+$query  .= " JOIN pas on gebruiker.Gebruiker_ID=pas.Gebruiker_Gebruiker_ID  ";
+$query  .= "  JOIN abbonementen on abbonementen.Pas_Pas_ID=pas.Pas_ID ";
+$query  .= " WHERE abbonementtype_abbonementtype = 1  ";
+$query  .= "  AND `Gebruikersnaam` = '$username' ";
 
+$result = mysqli_query($connection, $query);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -53,64 +58,16 @@ include ("include/sessions.php"); // Sessies
             </ul>
         </div>
         <div class="col2">
-            <h1>Gegevens</h1>
-
+            <h1>Verbruik</h1>
             <?php
+
             while($subject1 = mysqli_fetch_assoc($result)) {
-            $voornaam = $subject1["Voornaam"];
-                $achternaam=$subject1["Achternaam"];
-                $gebruikersnaam=$subject1["Gebruikersnaam"];
-                $rekening=$subject1["Rekeningsnummer"];
-                $wachtwoord=$subject1["Wachtwoord"];
-                $adres = $subject1["Adres"];
-                $postcode=$subject1["Postcode"];
-                $woonplaats=$subject1["Woonplaats"];
-                $telefoon=$subject1["Telefoonnummer"];
-                $email=$subject1["Email"];
+                echo "U heeft deze week ";
+                echo $subject1["Uren_Dezeweek"];
+                echo " uren verbruikt van uw bezoekerspas</br>";
             }
+
             ?>
-
-
-             <form action="profiel.php" method="post">
-                Voornaam:<br>
-                <input type="text" name="voornaam" value="<?php echo $voornaam; ?>">
-                <br>
-               Achternaam:<br>
-                <input type="text" name="achternaam" value="<?php echo $achternaam; ?>">
-                <br>
-                Gebruikersnaam:<br>
-                <input type="text" name="gebruikersnaam" value="<?php echo $gebruikersnaam; ?>">
-                <br>
-                rekeningnummer:<br>
-                <input type="text" name="rekening" value="<?php echo $rekening; ?>">
-                <br>
-                Wachtwoord:<br>
-                <input type="password" name="wachtwoord" value="<?php echo $wachtwoord; ?>">
-                <br>
-                adres:<br>
-                <input type="text" name="adres" value= "<?php echo $adres; ?>">
-                <br>
-                Postcode:<br>
-                <input type="text" name="postcode" value="<?php echo $postcode; ?>">
-            <br>
-            Woonplaats:<br>
-            <input type="text" name="woonplaats" value="<?php echo $woonplaats; ?>">
-            <br>
-                Telefoonnummer:<br>
-                <input type="text" name="telefoon" value="<?php echo $telefoon; ?>">
-                <br>
-                E-mail:<br>
-                <input type="text" name="email" value="<?php echo $email; ?>">
-                <br>
-                 <br>
-                 <br>
-                <input type="submit" value="Wijzig">
-                </br>
-                </br>
-
-            </form>
-
-
 
         </div>
 

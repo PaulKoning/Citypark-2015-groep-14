@@ -1,7 +1,7 @@
 <?php
 include ("include/dbconnect.php"); //DB Connectie
 include ("include/sessions.php"); // Sessies
-}
+
 
 ?>
 

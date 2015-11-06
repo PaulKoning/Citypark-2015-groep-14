@@ -1,7 +1,19 @@
 <?php
 include ("include/dbconnect.php");
 include ("include/sessions.php"); // Sessies
+$query  = "SELECT * FROM `gebruiker` join Pas on Gebruiker.Gebruiker_ID=pas.Gebruiker_Gebruiker_ID ";
+$query .= "join pastype ON pastype.Pastype_ID=pas.Pastype_Pastype_ID ";
+$query .=  "where gebruikersnaam = '$username'";
+
+$result = mysqli_query($connection, $query);
+
+//Test if there was a query error
+if (!$result) {
+    die("Database query failed.");
 }
+
+
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -57,7 +69,17 @@ include ("include/sessions.php"); // Sessies
             </br>
             <b>Uw Pasnummers zijn:</b><br>
 
+            <?php
+            while($subject1 = mysqli_fetch_assoc($result)) {
+                echo "<b>Uw pas ID is:</b>  ";
+                echo $subject1["Pas_ID"];
+                echo "<b>   U heeft een: </b>";
+                echo $subject1["Beschrijving_Type"];
+                echo "</br>";
 
+            }
+
+            ?>
 
 
 
