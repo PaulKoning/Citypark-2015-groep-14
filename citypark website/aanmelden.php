@@ -1,12 +1,6 @@
 <?php
 include ("include/dbconnect.php");
-include ("include/sessions.php");
-// Als je al ingelogd bent wordt je naar de homepage gestuurd
-if(isset($_SESSION['username'])) {
-    	echo '<meta http-equiv="refresh" content="0; url=/index.php" />'
-}
 ?>
-
 <head>
     <title>Registratie</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -24,7 +18,6 @@ if(isset($_SESSION['username'])) {
                 <ul>
                     <li><a class="active" href="index.php">Home</a></li>
                     <li><a href="inloggen.php">Inloggen</a></li>
-                    
 
                 </ul>
             </div>
@@ -137,3 +130,19 @@ if (isset($naam, $wachtwoord, $straat, $postcode, $woonplaats, $telefoonnummer, 
         <p>Copyright (c) 2015 CityPark. All rights reserved.</p>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

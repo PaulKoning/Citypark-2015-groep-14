@@ -1,12 +1,6 @@
 <?php
-include ("include/dbconnect.php");
-
-$query  = "SELECT * FROM `gebruiker` WHERE `Voornaam` = 'Jessica'";
-$result = mysqli_query($mysqli, $query);
-
-//Test if there was a query error
-if (!$result) {
-    die("Database query failed.");
+include ("include/dbconnect.php"); //DB Connectie
+include ("include/sessions.php"); // Sessies
 }
 
 ?>

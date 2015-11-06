@@ -9,7 +9,7 @@ echo '<link rel="stylesheet" type="text/css" href="css/styles.css"/>'; // CSS Fi
 // Als je geen admin bent wordt je naar de homepage gestuurd
 
 if(!isset($username) || $userlevel != 2 ) { // Level 2 = Admin
-    	echo '<meta http-equiv="refresh" content="0; url=../index.php" />'
+    	echo '<meta http-equiv="refresh" content="0; url=../index.php" />';
 }
 
 //hier begint html ok	
