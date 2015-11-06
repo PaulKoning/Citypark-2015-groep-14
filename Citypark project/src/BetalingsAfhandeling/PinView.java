@@ -13,6 +13,13 @@ import javax.swing.SwingConstants;
 
 import bankclient.BankProxy;
 
+/**
+ * 
+ * @author Koen Berghuis
+ * Geeft een pinapparaat weer en communiceert met de bank webservice om de betaling af te handelen
+ *
+ */
+
 public class PinView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	String pin;
@@ -25,16 +32,18 @@ public class PinView extends JFrame {
 		setPreferredSize(new Dimension(300, 300));
 		Container contents = getContentPane();
 		contents.setLayout(new GridLayout(5, 3));
+		//lege JLabel om de positie van het scherm goed te krijgen in de grid
 		contents.add(new JLabel(""));
 		scherm = new JLabel("", SwingConstants.CENTER);
 		contents.add(scherm);
 		contents.add(new JLabel(""));
+		//De knoppen voor 1 tot 9
 		for(int i = 1; i < 10; i++) {;
 			contents.add(createButton(i));
 		}
-		
 		JButton corrButton = new JButton("CORR");
 		JButton submitButton = new JButton("OK");
+		//Correctie knop verwijderd het laatste cijfer van de huidige pin
 		corrButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(pin.length() > 0) {
@@ -44,6 +53,7 @@ public class PinView extends JFrame {
 			}
 		});
 		
+		//Maak verbinding met de bank om de transactie uit te voeren, laat zien of dit geslaagd is of niet
 		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BankProxy bank = new BankProxy();
@@ -68,7 +78,7 @@ public class PinView extends JFrame {
 		setVisible(true);
 	}
 	
-	/*
+	/**
 	 * Maakt JButton die de gegeven int weergeeft en bij klikken de gegeven int aan de huidige pincode toevoegd
 	 * @param int number
 	 * @returns JButton
