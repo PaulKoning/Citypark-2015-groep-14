@@ -18,8 +18,8 @@ public class Database {
 	/**
 	 * Maakt verbinding met de gegeven database
 	 * @param url De url van de database
-	 * @param user
-	 * @param password
+	 * @param user De gebruikersnaam
+	 * @param password Het wachtwoord
 	 */
 	public Database(String url, String user, String password) {	
 		this.url = url;

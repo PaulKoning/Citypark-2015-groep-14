@@ -20,20 +20,25 @@ public class BetalingsAfhandeling {
     private double hCount= 0.00;
     public double bedrag = 0.00;
     private int pasID;
+    private static final String URL = "localhost:3306/citypark";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "";
 	
 	public BetalingsAfhandeling(int ID){
 		try{	
 			pasID = ID;
 			init();
 			firstQuery();
-		}catch(Exception e){
+		} catch(Exception e){
 			e.printStackTrace();
 		}
 	}
+	
 	public void init(){
-		connection = new Database();
+		connection = new Database(URL, USERNAME, PASSWORD);
 		conn = connection.getConnection();
 	}
+	
 	public void firstQuery(){
 		connection.query("Select Begintijd, Eindtijd FROM Inrijden WHERE Pas_Pas_ID = '"+pasID+"' ORDER BY Begintijd DESC");
 		list = connection.getResult();		
@@ -41,6 +46,7 @@ public class BetalingsAfhandeling {
 			nextInc((Timestamp)list.get(i).get("Begintijd"), (Timestamp)list.get(i).get("Eindtijd"));
 		}
 	}
+	
 	public void nextInc(Timestamp begin, Timestamp eind){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		start = begin;
@@ -62,6 +68,7 @@ public class BetalingsAfhandeling {
         }
         getBetaling();
 	}
+	
 	public HashMap<String, Object> getTarief(){
 		int zone = tariefZone(start, cal);
 		HashMap<String, Object> tarief = new HashMap<String, Object>();
@@ -75,6 +82,7 @@ public class BetalingsAfhandeling {
 		}
 		return tarief;
 	}
+	
 	public int tariefZone(Timestamp t, Calendar c){
 		int tariefZone = 0;
 		Timestamp timeTemp = t;
@@ -119,6 +127,7 @@ public class BetalingsAfhandeling {
 		}
 		return tariefZone;
 	}
+	
 	public String checkDay(int a){
 		int dcount = a;
 		String day = null;
@@ -142,6 +151,7 @@ public class BetalingsAfhandeling {
 		}
 		return day;
 	}
+	
 	public static double round(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
 		    long factor = (long) Math.pow(10, places);
@@ -149,6 +159,7 @@ public class BetalingsAfhandeling {
 		    long tmp = Math.round(value);
 	    return (double) tmp / factor;
 	}
+	
 	public double getBetaling(){
 		bedrag = round(bedrag, 2);
 		return bedrag;
