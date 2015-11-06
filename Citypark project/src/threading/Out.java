@@ -1,4 +1,4 @@
-package nl.hanze.promagreader.threading;
+package threading;
 
 import java.io.*;
 

@@ -1,5 +1,6 @@
 package nl.hanze.promagreader.main;
 
+
 public class Runner {
 
 	/**
@@ -7,7 +8,7 @@ public class Runner {
 	 */
 	public static void main(String[] args) {
 		try {
-			new Main();
+			//new Main();
 			// B0FD166398D5325F
 			// C30C6592EB2441AE
 			// F53A53A4DD127798

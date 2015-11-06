@@ -1,7 +1,10 @@
-package nl.hanze.promagreader.comm;
+package comm;
 
 import java.util.*;
 import java.io.*;
+
+import threading.In;
+import threading.Out;
 import gnu.io.*;
 import nl.hanze.promagreader.threading.*;
 

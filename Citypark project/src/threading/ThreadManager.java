@@ -1,5 +1,7 @@
-package nl.hanze.promagreader.threading;
+package threading;
 
+import gui.MainScreen;
+import decoder.Decoder;
 import nl.hanze.promagreader.gui.*;
 import nl.hanze.promagreader.decoder.*;
 

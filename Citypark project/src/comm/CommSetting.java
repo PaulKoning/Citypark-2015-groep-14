@@ -1,4 +1,4 @@
-package nl.hanze.promagreader.comm;
+package comm;
 
 public class CommSetting {
 	private String strPortName;
