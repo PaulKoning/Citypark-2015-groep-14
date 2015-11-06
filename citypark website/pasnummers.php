@@ -1,7 +1,14 @@
 <?php
 include ("include/dbconnect.php");
+include ("include/sessions.php");
 
-$query  = "SELECT * FROM `gebruiker` WHERE `Voornaam` = 'Jessica'";
+$query  = "SELECT * FROM `gebruiker` join Pas on Gebruiker.Gebruiker_ID=pas.Gebruiker_Gebruiker_ID ";
+$query .= "join pastype ON pastype.Pastype_ID=pas.Pastype_Pastype_ID ";
+$query .=  "where gebruikersnaam = '$username'";
+echo $username;
+
+
+
 $result = mysqli_query($mysqli, $query);
 
 //Test if there was a query error
@@ -64,7 +71,17 @@ if (!$result) {
             </br>
             <b>Uw Pasnummers zijn:</b><br>
 
+            <?php
+            while($subject1 = mysqli_fetch_assoc($result)) {
+                echo "<b>Uw pas ID is:</b>  ";
+                echo $subject1["Pas_ID"];
+                echo "<b>   U heeft een: </b>";
+                echo $subject1["Beschrijving_type"];
+                echo "</br>";
 
+            }
+
+            ?>
 
 
 
