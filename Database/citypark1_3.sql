@@ -50,10 +50,10 @@ DROP TABLE IF EXISTS `Citypark`.`Pastype` ;
 
 CREATE TABLE IF NOT EXISTS `Citypark`.`Pastype` (
   `Pastype_ID` INT NOT NULL AUTO_INCREMENT,
-  `Beschrijving Type` VARCHAR(100) NOT NULL,
+  `Beschrijving_Type` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`Pastype_ID`),
   UNIQUE INDEX `Pastype_ID_UNIQUE` (`Pastype_ID` ASC),
-  UNIQUE INDEX `Beschrijving Type_UNIQUE` (`Beschrijving Type` ASC))
+  UNIQUE INDEX `Beschrijving_Type_UNIQUE` (`Beschrijving_Type` ASC))
 ENGINE = InnoDB;
 
 

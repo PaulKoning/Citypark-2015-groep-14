@@ -1005,10 +1005,10 @@ insert into Tarief (bedragpuur, max) VALUES (2.20, 10.00);
 insert into Tarief (bedragpuur, max) VALUES (2.80, 15.00);
 insert into Tarief (bedragpuur, max) VALUES (1.10, 10.00);
 
-insert into Pastype (`Beschrijving Type`) VALUES ('Ad-Hoc');
-insert into Pastype (`Beschrijving Type`) VALUES ('Abbonement');
-insert into Pastype (`Beschrijving Type`) VALUES ('Leeg');
-insert into Pastype (`Beschrijving Type`) VALUES ('Bezoekerspas');
+insert into Pastype (`Beschrijving_Type`) VALUES ('Ad-Hoc');
+insert into Pastype (`Beschrijving_Type`) VALUES ('Abbonement');
+insert into Pastype (`Beschrijving_Type`) VALUES ('Leeg');
+insert into Pastype (`Beschrijving_Type`) VALUES ('Bezoekerspas');
 
 insert into Pas (Pastype_Pastype_ID, Actief, Gebruiker_Gebruiker_ID) values (1, true, 112);
 insert into Pas (Pastype_Pastype_ID, Actief, Gebruiker_Gebruiker_ID) values (1, false, 132);
