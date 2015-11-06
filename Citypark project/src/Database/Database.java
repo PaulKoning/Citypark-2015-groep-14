@@ -5,15 +5,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
  * @author Koen Berghuis, Paul Koning
  * Klasse om verbinding te maken met een SQL database en hier queries op uit te voeren
  */
 public class Database { 
 	private Connection conn;
 	private ResultSet res;
+	private String url;
+	private String user;
+	private String password;
 	
-	public Database() {	
+	/**
+	 * Maakt verbinding met de gegeven database
+	 * @param url De url van de database
+	 * @param user
+	 * @param password
+	 */
+	public Database(String url, String user, String password) {	
+		this.url = url;
+		this.user = user;
+		this.password = password;
 		conn = getConnection();
 	};
 	
@@ -23,8 +34,7 @@ public class Database {
 	 */
 	public Connection getConnection() {
 		try {
-			//Get Connection
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/citypark", "root", "");
+			Connection conn = DriverManager.getConnection(url, user, password);
 			if(conn == null) {
 				System.out.println("Conn in Class Db = null");
 			}
