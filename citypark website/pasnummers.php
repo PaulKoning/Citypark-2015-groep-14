@@ -36,10 +36,22 @@ if (!$result) {
 
             <div class="menu">
                 <ul>
-                    <li><a class="active" href="index.php">Home</a></li>
-                    <li><a href="inloggen.php">Inloggen</a></li>
-                    <li><a href="aanmelden.php">Aanmelden</a></li>
 
+
+                    <?php
+
+                    //CODE BY JENS
+
+                    echo '<li><a class="active" href="index.php">Home</a></li>';
+
+                    if(!isset($_SESSION['username'])) { // Als je niet bent ingelogd wordt dit weergegeven
+                        echo ' 	<li><a href="inloggen.php">Inloggen</a></li>
+                    	<li><a href="aanmelden.php">Aanmelden</a></li>';
+                    }
+                    if(isset($_SESSION['username'])) {
+                        echo '<li><a href="uitloggen.php">Uitloggen</a></li>';
+                    }
+                    ?>
                 </ul>
             </div>
         </div>
