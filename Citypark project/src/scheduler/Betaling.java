@@ -35,20 +35,20 @@ public class Betaling extends TimerTask {
 		BankProxy bank = new BankProxy();
 		database.query("SELECT Bedrag_p_maand FROM abbonementtype WHERE Abbonementtype = 2");
 		int bedrag = (int)database.getResult().get(0).get("Bedrag_p_maand");
-		database.query("SELECT Rekeningsnummer from gebruiker JOIN abbonementen on gebruiker.Pas_Pas_ID = abbonementen.Pas_Pas_ID WHERE abbonomenten.Abbonementtype_Abbonementtype = 2");
-		database.close();
+		database.query("SELECT gebruiker.Rekeningsnummer, gebruiker.Gebruiker_ID from gebruiker JOIN abbonementen on gebruiker.Pas_Pas_ID = abbonementen.Pas_Pas_ID WHERE abbonomenten.Abbonementtype_Abbonementtype = 2");
 		ArrayList<Map<String, Object>> res = database.getResult();
 		//gaat alle abbonementen bij langs en schrijft het geld af
-		for(Map row : res) {
+		for(Map<String, Object> row : res) {
 			try {
 				if(!bank.transfer((int)row.get("Rekeningsnummer"), REKENINGNR_CITYPARK, bedrag)) {
 					//blokkeer passen als de afschrijving niet lukt
-					
+					database.update("UPDATE pas SET Actief = 0 WHERE " + (String)row.get("Gebruiker_ID") + " = pas.Gebruiker_Gebruiker_ID");
 				}
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
 		}
+		database.close();
 		//schedule volgende betaling
 		scheduler.schedule();
 	}
