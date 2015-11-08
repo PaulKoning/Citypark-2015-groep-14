@@ -42,7 +42,7 @@ public class Betaling extends TimerTask {
 			try {
 				if(!bank.transfer((int)row.get("Rekeningsnummer"), REKENINGNR_CITYPARK, bedrag)) {
 					//blokkeer passen als de afschrijving niet lukt
-					database.update("UPDATE pas SET Actief = 0 WHERE " + (String)row.get("Gebruiker_ID") + " = pas.Gebruiker_Gebruiker_ID");
+					database.update("UPDATE pas SET Actief = 0 WHERE pas.Gebruiker_Gebruiker_ID = " + (String)row.get("Gebruiker_ID"));
 				}
 			} catch (RemoteException e) {
 				e.printStackTrace();
