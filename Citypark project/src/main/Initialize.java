@@ -1,7 +1,11 @@
 package main;
 import java.rmi.RemoteException;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Map;
 
 import org.apache.axis.utils.StringUtils;
@@ -17,7 +21,11 @@ public class Initialize {
 	private static final String PASSWORD = "";
 	private static final int REKENINGNR_CITYPARK = 100000;
 	private static Database databaseCitypark;
-	private static Database databaseBank;
+	private Database databaseBank;
+	private static Calendar cal;
+	private static Timestamp start;
+	private Timestamp finish;
+	
 	public Initialize() {
 	    
 		try{
@@ -45,11 +53,26 @@ public class Initialize {
 		//Alle begin en eindtijden selecteren van het geselecteerde Pas_ID
 		databaseCitypark.query("Select Begintijd, Eindtijd FROM inrijden WHERE Pas_Pas_ID = '"+pas_id+"' ORDER BY Begintijd DESC");
 		res = databaseCitypark.getResult();
-		Timestamp eindtijd;
+		Timestamp eindtijd = null;
+		Timestamp begintijd = null;
 		for(Map<String, Object> row : res) {
 			eindtijd =  (Timestamp) row.get("Eindtijd");
+			begintijd =  (Timestamp) row.get("Begintijd");
 			System.out.println("Eindtijd: "+eindtijd);
+			System.out.println("Begintijd: "+begintijd);
 		}
+		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //cal = Calendar.getInstance();
+        //cal.setTimeInMillis(begintijd.getTime());
+        //start = Timestamp.valueOf(sdf.format(cal.getTime()));
+        //System.out.println("NU: "+sdf);
+		
+		if(res.isEmpty()){
+			databaseCitypark.update("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Abbonomenten_Abbonomenten_ID, Pas_Pas_ID) "
+					+ "VALUES (, 'Stavanger', NULL, );");			
+			
+		}
+		
 		//Rekeningsnummer selecteren van de Card_ID
 		if(databaseCitypark.query("SELECT Gebruiker_Gebruiker_ID FROM pas WHERE Cardid = '"+Card_ID+"'")){
 			System.out.println(PasHerkenning.pasHerkenning(pas));
