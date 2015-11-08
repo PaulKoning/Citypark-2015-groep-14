@@ -11,7 +11,6 @@ public class ThreadManager extends Thread {
 	private MainScreen main;//GUI
 	private long pollinterval;
 	private Decoder dec;
-	private String pas;	
 	
 	public ThreadManager(In in, MainScreen main, long pollinterval) {
 		new BetalingScheduler();
@@ -22,10 +21,6 @@ public class ThreadManager extends Thread {
 		start();
 	}
 	
-	public String getPas(){
-		return pas;
-	}
-	
 	@Override
 	public void run() {
 		while(true) {
@@ -34,8 +29,7 @@ public class ThreadManager extends Thread {
 				if(s!=null) { 
 					main.setText(s);					
 					main.setID(dec.decodeLastValue(main.getText()));
-					pas = PasHerkenning.pasHerkenning(s);
-					Initialize.PoortOfPin();
+					Initialize.PoortOfPin(PasHerkenning.pasHerkenning(s));
 				}				
 				Thread.sleep(pollinterval);
 			} catch (Exception e) {
