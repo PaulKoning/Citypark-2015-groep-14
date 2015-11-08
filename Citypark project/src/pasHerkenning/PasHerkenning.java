@@ -43,29 +43,13 @@ public class PasHerkenning {
 			for(Map<String, Object> row : res) {
 				pasType_ID =  (int) row.get("Pastype_Pastype_ID");
 			}
-			
-		      //List<Object> list=new ArrayList<Object>();
-		      //for(Map<String,Object> i:resultList){
-		      //    list.addAll(i.values());
-		     // }
-		      //String ID = list.toString();
-		      //String ID2 = ID.replace("[", "");
-		      //String Pas_ID = ID2.replace("]", "");
 		      
-		      database.query("SELECT Beschrijving_Type FROM pastype WHERE Pastype_ID = '"+pasType_ID+"'");
+		    database.query("SELECT Beschrijving_Type FROM pastype WHERE Pastype_ID = '"+pasType_ID+"'");
 		      
-		      ArrayList<Map<String, Object>> res2 = database.getResult();
+		    ArrayList<Map<String, Object>> res2 = database.getResult();
 				for(Map<String, Object> row : res2) {
 					pas =  (String) row.get("Beschrijving_Type");
 				}
-		      
-		      //list.clear();   // gooit List leeg
-		      //for(Map<String,Object> i:resultList){
-		      //    list.addAll(i.values());
-		      //}
-		      //String pas = list.toString();
-		      //String pas2 = pas.replace("[", "");
-		      //String PasType = pas2.replace("]", "");
 		      return pas;
 		      
 		}else{

@@ -30,14 +30,22 @@ public class Initialize {
 	public static void PoortOfPin(String pas){
 		String Card_ID = pas.replace("\n", "").replace("\r", "");
 		StringUtils.stripEnd(Card_ID, null);
-		database.query("SELECT Gebruiker_Gebruiker_ID FROM pas WHERE Cardid = '"+Card_ID+"'");
-		System.out.println(PasHerkenning.pasHerkenning(pas));
+		if(database.query("SELECT Gebruiker_Gebruiker_ID FROM pas WHERE Cardid = '"+Card_ID+"'")){
+			System.out.println(PasHerkenning.pasHerkenning(pas));
+		}		
 		ArrayList<Map<String, Object>> res = database.getResult();
+		int gebruiker_id = 0;
 		for(Map<String, Object> row : res) {
-			int tmp =  (int) row.get("Gebruiker_Gebruiker_ID");
-			System.out.println(tmp);
+			gebruiker_id =  (int) row.get("Gebruiker_Gebruiker_ID");
+			System.out.println(gebruiker_id);
 		}
-		
+		database.query("SELECT Rekeningsnummer FROM gebruiker WHERE Gebruiker_ID = '"+gebruiker_id+"'");
+		res = database.getResult();
+		int rekeningsnummer = 0;
+		for(Map<String, Object> row : res) {
+			rekeningsnummer =  (int) row.get("Rekeningsnummer");
+			System.out.println(rekeningsnummer);
+		}
 		String substr = "Bank";
 		int tmp = pas.indexOf(substr);
 		if(tmp == 0){
