@@ -35,7 +35,10 @@ public class Betaling extends TimerTask {
 		BankProxy bank = new BankProxy();
 		database.query("SELECT Bedrag_p_maand FROM abbonementtype WHERE Abbonementtype = 2");
 		int bedrag = (int)database.getResult().get(0).get("Bedrag_p_maand");
-		database.query("SELECT gebruiker.Rekeningsnummer, gebruiker.Gebruiker_ID from gebruiker JOIN abbonementen on gebruiker.Pas_Pas_ID = abbonementen.Pas_Pas_ID WHERE abbonomenten.Abbonementtype_Abbonementtype = 2");
+		//haal rekeningsnummers van huidige abbonees op
+		database.query("SELECT gebruiker.Rekeningsnummer, gebruiker.Gebruiker_ID, abbonementen.Abbonoment_ID FROM gebruiker " 
+					 + "JOIN pas ON gebruiker.Gebruiker_ID = pas.Gebruiker_Gebruiker_ID" 
+					 + "JOIN abbonementen ON pas.Pas_ID = abbonementen.Pas_Pas_ID WHERE abbonementen.Abbonementtype_Abbonementtype = 2 AND abbonementen.Actief = 1");
 		ArrayList<Map<String, Object>> res = database.getResult();
 		//gaat alle abbonementen bij langs en schrijft het geld af
 		for(Map<String, Object> row : res) {
@@ -43,6 +46,8 @@ public class Betaling extends TimerTask {
 				if(!bank.transfer((int)row.get("Rekeningsnummer"), REKENINGNR_CITYPARK, bedrag)) {
 					//blokkeer passen als de afschrijving niet lukt
 					database.update("UPDATE pas SET Actief = 0 WHERE pas.Gebruiker_Gebruiker_ID = " + (String)row.get("Gebruiker_ID"));
+					//zet abbonement op non actief
+					database.update("UPDATE abbonementen SET Actief = 0 WHERE Abbonoment_ID = " + (String)row.get("Abbonoment_ID"));
 				}
 			} catch (RemoteException e) {
 				e.printStackTrace();
