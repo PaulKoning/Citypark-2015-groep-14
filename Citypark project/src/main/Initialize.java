@@ -1,6 +1,8 @@
 package main;
 import java.rmi.RemoteException;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,9 +24,7 @@ public class Initialize {
 	private static final int REKENINGNR_CITYPARK = 100000;
 	private static Database databaseCitypark;
 	private Database databaseBank;
-	private static Calendar cal;
-	private static Timestamp start;
-	private Timestamp finish;
+	private static Timestamp tijd;
 	
 	public Initialize() {
 	    
@@ -39,6 +39,7 @@ public class Initialize {
 	}
 	
 	public static void PoortOfPin(String pas){
+		//de string pas formatteren zodat die bruikbaar is
 		String Card_ID = pas.replace("\n", "").replace("\r", "");
 		StringUtils.stripEnd(Card_ID, null);
 		
@@ -58,20 +59,28 @@ public class Initialize {
 		for(Map<String, Object> row : res) {
 			eindtijd =  (Timestamp) row.get("Eindtijd");
 			begintijd =  (Timestamp) row.get("Begintijd");
-			System.out.println("Eindtijd: "+eindtijd);
-			System.out.println("Begintijd: "+begintijd);
 		}
-		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //cal = Calendar.getInstance();
-        //cal.setTimeInMillis(begintijd.getTime());
-        //start = Timestamp.valueOf(sdf.format(cal.getTime()));
-        //System.out.println("NU: "+sdf);
+		//abbonomenten id zoeken
+		databaseCitypark.query("Select Abbonoment_ID FROM abbonomenten WHERE Pas_Pas_ID = '"+Card_ID+"'");
+		res = databaseCitypark.getResult();
+		int abbonomenten_id = 0;
+		for(Map<String, Object> row : res) {
+			abbonomenten_id =  (int) row.get("Abbonomenten_ID");
+		}
 		
-		if(res.isEmpty()){
-			databaseCitypark.update("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Abbonomenten_Abbonomenten_ID, Pas_Pas_ID) "
-					+ "VALUES (, 'Stavanger', NULL, );");			
-			
-		}
+		//timestamp aanmaken van huidige tijd
+	     java.util.Date date= new java.util.Date();
+	     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	     String formattedDate = sdf.format(date);
+	     System.out.println(formattedDate);
+		//als er geen begin of eind tijden zijn voor de gebruiker, insert dan een nieuwe record
+		if(begintijd == null){
+			System.out.println("nog niet ingereden");			
+			if(databaseCitypark.update("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Abbonementen_Abbonoment_ID, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0,'"+abbonomenten_id+"','"+Card_ID+"')")){
+			}else{
+			System.out.println("query begintijd inserten failed");
+			}			
+		}	
 		
 		//Rekeningsnummer selecteren van de Card_ID
 		if(databaseCitypark.query("SELECT Gebruiker_Gebruiker_ID FROM pas WHERE Cardid = '"+Card_ID+"'")){
