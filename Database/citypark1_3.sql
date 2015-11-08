@@ -113,6 +113,7 @@ CREATE TABLE IF NOT EXISTS `Citypark`.`Abbonementen` (
   `Abbonementtype_Abbonementtype` INT NOT NULL,
   `Pas_Pas_ID` INT NOT NULL,
   `Uren_Dezeweek` DOUBLE NOT NULL,
+  `Actief` TINYINT(1) NOT NULL,
   INDEX `fk_Abbonementen_Abbonementtype1_idx` (`Abbonementtype_Abbonementtype` ASC),
   PRIMARY KEY (`Abbonoment_ID`),
   UNIQUE INDEX `Abbonomenttype_UNIQUE` (`Abbonoment_ID` ASC),
