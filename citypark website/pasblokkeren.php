@@ -1,12 +1,12 @@
 <?php
 include ("include/dbconnect.php");
 include ("include/sessions.php"); // Sessies
+$query  = " UPDATE pas   ";
+$query  .= " join gebruiker on gebruiker.Gebruiker_ID=pas.Gebruiker_Gebruiker_ID  ";
+$query  .= "  SET Actief=0 ";
+$query  .= " WHERE `Gebruikersnaam` = '$username'  ";
 
-function myFunction(){
-    echo "Hello world!";
-
-}
-
+$result = mysqli_query($connection, $query);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -57,16 +57,10 @@ function myFunction(){
             </ul>
         </div>
         <div class="col2">
-            <h1>Pas blokkeren</h1>
+            <h1>Pas Blokkeren</h1></br>
 
-
-            <h2>Bent u er zeker van dat u uw pas wilt blokkeren?</h2><br>
-
-            <form method="get" action="pasblokkeren.php">
-                <button type="submit">Ja</button>
-            </form>
-
-
+            Uw pas is succesvol geblokkeerd!<br>
+            Het is niet mogelijk uw pas weer handmatig te heractiveren neem hiervoor contact op met Citypark.<br>
 
         </div>
 
