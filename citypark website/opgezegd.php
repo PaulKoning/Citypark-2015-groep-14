@@ -1,8 +1,13 @@
 <?php
 include ("include/dbconnect.php");
 include ("include/sessions.php"); // Sessies
+$query  = " UPDATE abbonementen    ";
+$query  .= " join pas on pas.Pas_ID=abbonementen.Pas_Pas_ID  ";
+$query  .= "  Sjoin gebruiker on gebruiker.Gebruiker_ID=pas.Gebruiker_Gebruiker_ID ";
+$query  .= "  SET abbonementen.Actief = 1 ";
+$query  .= " WHERE `Gebruikersnaam` = '$username'  ";
 
-
+$result = mysqli_query($connection, $query);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -53,17 +58,10 @@ include ("include/sessions.php"); // Sessies
             </ul>
         </div>
         <div class="col2">
-            <h1>Servicepagina</h1>
+            <h1>Pas Blokkeren</h1></br>
 
-            <form action="servicepagina.php" id="usrform" action="post">
-                Betreft: <input type="text" name="usrname">
-
-                <button type="submit">Verstuur</button>
-            </form>
-            <br>
-            <textarea rows="4" cols="50" name="comment" form="usrform">
-                Plaats hier je verzoek of klacht.</textarea>
-
+            Uw abbonement is succesvol opgezegd!<br>
+            Het is niet mogelijk uw abonnement weer handmatig te heractiveren neem hiervoor contact op met Citypark.<br>
 
         </div>
 

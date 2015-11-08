@@ -2,6 +2,9 @@
 include ("include/dbconnect.php");
 include ("include/sessions.php"); // Sessies
 
+function myFunction(){
+    echo "Hello world!";
+
 }
 
 ?>
@@ -54,61 +57,13 @@ include ("include/sessions.php"); // Sessies
             </ul>
         </div>
         <div class="col2">
-            <h1>Gegevens</h1>
-
-            <?php
-            while($subject1 = mysqli_fetch_assoc($result)) {
-            $voornaam = $subject1["Voornaam"];
-                $achternaam=$subject1["Achternaam"];
-                $gebruikersnaam=$subject1["Gebruikersnaam"];
-                $rekening=$subject1["Rekeningsnummer"];
-                $wachtwoord=$subject1["Wachtwoord"];
-                $adres = $subject1["Adres"];
-                $postcode=$subject1["Postcode"];
-                $woonplaats=$subject1["Woonplaats"];
-                $telefoon=$subject1["Telefoonnummer"];
-                $email=$subject1["Email"];
-            }
-            ?>
+            <h1>Pas blokkeren</h1>
 
 
-             <form action="profiel.php" method="post">
-                Voornaam:<br>
-                <input type="text" name="voornaam" value="<?php echo $voornaam; ?>">
-                <br>
-               Achternaam:<br>
-                <input type="text" name="achternaam" value="<?php echo $achternaam; ?>">
-                <br>
-                Gebruikersnaam:<br>
-                <input type="text" name="gebruikersnaam" value="<?php echo $gebruikersnaam; ?>">
-                <br>
-                rekeningnummer:<br>
-                <input type="text" name="rekening" value="<?php echo $rekening; ?>">
-                <br>
-                Wachtwoord:<br>
-                <input type="password" name="wachtwoord" value="<?php echo $wachtwoord; ?>">
-                <br>
-                adres:<br>
-                <input type="text" name="adres" value= "<?php echo $adres; ?>">
-                <br>
-                Postcode:<br>
-                <input type="text" name="postcode" value="<?php echo $postcode; ?>">
-            <br>
-            Woonplaats:<br>
-            <input type="text" name="woonplaats" value="<?php echo $woonplaats; ?>">
-            <br>
-                Telefoonnummer:<br>
-                <input type="text" name="telefoon" value="<?php echo $telefoon; ?>">
-                <br>
-                E-mail:<br>
-                <input type="text" name="email" value="<?php echo $email; ?>">
-                <br>
-                 <br>
-                 <br>
-                <input type="submit" value="Wijzig">
-                </br>
-                </br>
+            <h2>Bent u er zeker van dat u uw abbonement wilt opzeggen?</h2><br>
 
+            <form method="get" action="opgezegd.php">
+                <button type="submit">Ja</button>
             </form>
 
 
