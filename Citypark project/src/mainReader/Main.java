@@ -10,6 +10,8 @@ public class Main {
 	private Comm comm;
 	private CommSetting setting;
 	private MainScreen mainscreen;
+	private ThreadManager threadManager;
+	private String pas;
 	
 	public Main() throws Exception {
 		setting=new CommSetting("COM4", 9600, 
@@ -17,7 +19,12 @@ public class Main {
 				SerialPort.PARITY_NONE, SerialPort.FLOWCONTROL_NONE);
 		comm=new Comm(setting);
       	mainscreen=new MainScreen(comm.getOut());
-		new ThreadManager(comm.getIn(), mainscreen, 250L);
+      	threadManager = new ThreadManager(comm.getIn(), mainscreen, 250L);
+	}
+	
+	public String getPas(){
+		pas = threadManager.getPas();
+		return pas;
 	}
 	
 	
