@@ -2,7 +2,6 @@ package threading;
 
 import gui.MainScreen;
 import decoder.Decoder;
-import pasHerkenning.PasHerkenning;
 import scheduler.BetalingScheduler;
 import main.Initialize;
 
@@ -29,7 +28,7 @@ public class ThreadManager extends Thread {
 				if(s!=null) { 
 					main.setText(s);					
 					main.setID(dec.decodeLastValue(main.getText()));
-					Initialize.PoortOfPin(PasHerkenning.pasHerkenning(s));
+					Initialize.PoortOfPin(s);
 				}				
 				Thread.sleep(pollinterval);
 			} catch (Exception e) {

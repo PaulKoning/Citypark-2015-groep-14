@@ -1,13 +1,11 @@
 package pasHerkenning;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.axis.utils.StringUtils;
 
 import Database.Database;
-import main.Initialize;
 
 public class PasHerkenning {
 	private static String pas;
@@ -40,30 +38,36 @@ public class PasHerkenning {
 		if(database.query(inrijdQuery)){
 			String pasQuery = "SELECT Pastype_Pastype_ID FROM pas WHERE Cardid = '"+Card_ID+"'";
 			database.query(pasQuery);
-			ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-			resultList = database.getResult();
+			int pasType_ID = 0;
+			ArrayList<Map<String, Object>> res = database.getResult();
+			for(Map<String, Object> row : res) {
+				pasType_ID =  (int) row.get("Pastype_Pastype_ID");
+			}
 			
-
-		      List<Object> list=new ArrayList<Object>();
-		      for(Map<String,Object> i:resultList){
-		          list.addAll(i.values());
-		      }
-		      String ID = list.toString();
-		      String ID2 = ID.replace("[", "");
-		      String Pas_ID = ID2.replace("]", "");
+		      //List<Object> list=new ArrayList<Object>();
+		      //for(Map<String,Object> i:resultList){
+		      //    list.addAll(i.values());
+		     // }
+		      //String ID = list.toString();
+		      //String ID2 = ID.replace("[", "");
+		      //String Pas_ID = ID2.replace("]", "");
 		      
-		      String pasTypeQuery = "SELECT Beschrijving_Type FROM pastype WHERE Pastype_ID = '"+Pas_ID+"'";
-		      database.query(pasTypeQuery);
-		      resultList = database.getResult();
-		      list.clear();   // gooit List leeg
-		      for(Map<String,Object> i:resultList){
-		          list.addAll(i.values());
-		      }
-		      String pas = list.toString();
-		      String pas2 = pas.replace("[", "");
-		      String PasType = pas2.replace("]", "");
-		      database.close();
-		      return PasType;
+		      database.query("SELECT Beschrijving_Type FROM pastype WHERE Pastype_ID = '"+pasType_ID+"'");
+		      
+		      ArrayList<Map<String, Object>> res2 = database.getResult();
+				for(Map<String, Object> row : res2) {
+					pas =  (String) row.get("Beschrijving_Type");
+				}
+		      
+		      //list.clear();   // gooit List leeg
+		      //for(Map<String,Object> i:resultList){
+		      //    list.addAll(i.values());
+		      //}
+		      //String pas = list.toString();
+		      //String pas2 = pas.replace("[", "");
+		      //String PasType = pas2.replace("]", "");
+		      return pas;
+		      
 		}else{
 			System.out.println("failed query");
 		}
