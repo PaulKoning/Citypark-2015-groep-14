@@ -61,11 +61,11 @@ public class Initialize {
 			begintijd =  (Timestamp) row.get("Begintijd");
 		}
 		//abbonomenten id zoeken
-		databaseCitypark.query("Select Abbonoment_ID FROM abbonomenten WHERE Pas_Pas_ID = '"+Card_ID+"'");
+		databaseCitypark.query("Select Abbonoment_ID FROM abbonementen WHERE Pas_Pas_ID = '"+pas_id+"'");
 		res = databaseCitypark.getResult();
 		int abbonomenten_id = 0;
 		for(Map<String, Object> row : res) {
-			abbonomenten_id =  (int) row.get("Abbonomenten_ID");
+			abbonomenten_id =  (int) row.get("Abbonoment_ID");
 		}
 		
 		//timestamp aanmaken van huidige tijd
@@ -75,8 +75,8 @@ public class Initialize {
 	     System.out.println(formattedDate);
 		//als er geen begin of eind tijden zijn voor de gebruiker, insert dan een nieuwe record
 		if(begintijd == null){
-			System.out.println("nog niet ingereden");			
-			if(databaseCitypark.update("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Abbonementen_Abbonoment_ID, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0,'"+abbonomenten_id+"','"+Card_ID+"')")){
+			String insertQuery = ("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Abbonementen_Abbonoment_ID, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0,'"+abbonomenten_id+"','"+pas_id+"')");
+			if(databaseCitypark.update(insertQuery)){
 			}else{
 			System.out.println("query begintijd inserten failed");
 			}			
