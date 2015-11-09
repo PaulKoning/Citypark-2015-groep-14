@@ -64,7 +64,7 @@ include ("include/sessions.php");
             <h1>About Us</h1>
             Welkom op de website van CityPark Groningen!</br>
             De nummer één parkeergarage van Groningen!</br>
-            Je vind ons onder de vismarkt.</br>
+            Je vindt ons onder de Vismarkt.</br>
             Maak snel een account aan en maak gebruik van voordelige abonnementstarieven.</br>
 
 
