@@ -25,16 +25,18 @@ public class PinView extends JFrame {
 	String pin;
 	JLabel scherm;
 	private static final int REKENINGSID_CITYPARK = 1;
+	private boolean betaald = false;
 	
 	public PinView(final int rekeningsnummer, final double bedrag) {
 		pin = new String();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(300, 300));
 		Container contents = getContentPane();
 		contents.setLayout(new GridLayout(5, 3));
 		//lege JLabel om de positie van het scherm goed te krijgen in de grid
 		contents.add(new JLabel(""));
 		scherm = new JLabel("", SwingConstants.CENTER);
+		scherm.setText(String.valueOf(bedrag));
 		contents.add(scherm);
 		contents.add(new JLabel(""));
 		//De knoppen voor 1 tot 9
@@ -60,6 +62,7 @@ public class PinView extends JFrame {
 				try {
 					if(bank.transferMetPin(rekeningsnummer, REKENINGSID_CITYPARK, bedrag, Integer.parseInt(pin))) {
 						scherm.setText("Geslaagd");
+						betaald = true;
 					} else {
 						scherm.setText("Afgebroken");
 						pin = "";
@@ -76,6 +79,10 @@ public class PinView extends JFrame {
 		
 		pack();
 		setVisible(true);
+	}
+	
+	public boolean getBetaald() {
+		return betaald;
 	}
 	
 	/**
