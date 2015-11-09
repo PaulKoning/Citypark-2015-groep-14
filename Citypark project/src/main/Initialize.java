@@ -54,6 +54,16 @@ public class Initialize {
 			pas_id =  (int) row.get("Pas_ID");
 			System.out.println(pas_id);
 		}
+		
+		//PasType selecteren
+		databaseCitypark.query("Select Pastype_Pastype_ID FROM pas WHERE Cardid = '"+Card_ID+"'");
+		res = databaseCitypark.getResult();
+		int pas_type = 0; // dit is de id van de pas
+		for(Map<String, Object> row : res) {
+			pas_type =  (int) row.get("Pastype_Pastype_ID");
+			System.out.println(pas_type);
+		}		
+		
 		//Alle begin en eindtijden selecteren van het geselecteerde Pas_ID
 		databaseCitypark.query("Select Begintijd, Eindtijd FROM inrijden WHERE Pas_Pas_ID = '"+pas_id+"' ORDER BY Begintijd DESC");
 		res = databaseCitypark.getResult();
@@ -77,15 +87,24 @@ public class Initialize {
 	     String formattedDate = sdf.format(date);
 		//als er geen begin of eind tijden zijn voor de gebruiker, insert dan een nieuwe record met de huidige tijd
 		if(begintijd == null){ 
-			String insertQuery = ("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Abbonementen_Abbonoment_ID, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0,'"+abbonomenten_id+"','"+pas_id+"')");
-			if(databaseCitypark.update(insertQuery)){
+			String insertQueryMet = ("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Abbonementen_Abbonoment_ID, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0,'"+abbonomenten_id+"','"+pas_id+"')");
+			String insertQueryZonder = ("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0, '"+pas_id+"')");
+			if(abbonomenten_id==0){
+				if(databaseCitypark.update(insertQueryZonder)){
+					System.out.println("Poort gaat nu open. Prettige dag verder!");
+					try{
+					MainScreen.out.beep(); //beep als de poort open gaat
+					}catch(Exception e){}				
+				}else{
+						System.out.println("error query zonder");
+				}	
+			}else{
+				databaseCitypark.update(insertQueryMet);
 				System.out.println("Poort gaat nu open. Prettige dag verder!");
 				try{
 				MainScreen.out.beep(); //beep als de poort open gaat
-				}catch(Exception e){}				
-			}else{
-			System.out.println("query begintijd inserten failed");
-			}			
+				}catch(Exception e){}
+			}
 		}	
 		
 		//Rekeningsnummer selecteren van de Card_ID
@@ -105,12 +124,6 @@ public class Initialize {
 				rekeningsnummer =  (int) row.get("Rekeningsnummer");
 				System.out.println(rekeningsnummer);
 			}
-		}
-		
-		String substr = "Bank";
-		int tmp = pas.indexOf(substr);
-		if(tmp == 0){
-			//new PinView();
 		}
 	}
 }
