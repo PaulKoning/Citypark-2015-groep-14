@@ -33,7 +33,7 @@ public class MainScreen extends JFrame implements ActionListener {
 		
 		this.out=out;
 		setSize(640, 480);
-		setVisible(false);
+		setVisible(true);
 		setTitle("PROMAG");
 		setLayout(null);
 		getContentPane().add(beep);
