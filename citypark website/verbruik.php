@@ -58,6 +58,7 @@ $result = mysqli_query($connection, $query);
         <div class="col1 marRight">
             <h1>Menu</h1>
 
+
             <ul>
 
                 <li><a href="profiel.php">Profiel weergeven</a></li>
@@ -80,7 +81,9 @@ $result = mysqli_query($connection, $query);
             }
 
             ?>
-
+            </br>
+            </br>
+            <i>Bij geen resultaat heeft u geen bezoekerspas</i>
         </div>
 
 

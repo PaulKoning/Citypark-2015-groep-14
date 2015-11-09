@@ -69,7 +69,7 @@ function myFunction(){
             </ul>
         </div>
         <div class="col2">
-            <h1>Pas blokkeren</h1>
+            <h1>Abonnement opzeggen</h1>
 
 
             <h2>Bent u er zeker van dat u uw abbonement wilt opzeggen?</h2><br>

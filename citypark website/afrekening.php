@@ -84,18 +84,23 @@ if (!$result) {
             <h1>Afrekeningen</h1>
 
             </br>
-            <b>Uw maandafrekening van deze maand is:</b><br>
+            <b>Uw maandafrekening van deze maand is:</b><br><br>
 
             <?php
+            echo "<u>Product:</u> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp    &nbsp  <u>bedrag:</u><br>";
             while($subject1 = mysqli_fetch_assoc($result)) {
 
+                echo "Abonnement &nbsp &nbsp  &nbsp  &nbsp";
+                echo "€";
                 echo $subject1["Bedrag_p_maand"];
                 echo "</br>";
 
             }
 
             ?>
-
+            </br>
+            </br>
+            <i>Bij geen resultaat heeft u geen abonnement</i>
 
         </div>
 
