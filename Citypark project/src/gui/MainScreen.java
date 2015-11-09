@@ -11,7 +11,7 @@ public class MainScreen extends JFrame implements ActionListener {
 	public JTextField id;
 	private boolean colorToggle=false;
 	public JTextArea area;
-	private Out out;
+	public static Out out;
 	
 	public MainScreen(Out out) {
 		beep=new JButton("Beep");
@@ -33,7 +33,7 @@ public class MainScreen extends JFrame implements ActionListener {
 		
 		this.out=out;
 		setSize(640, 480);
-		setVisible(true);
+		setVisible(false);
 		setTitle("PROMAG");
 		setLayout(null);
 		getContentPane().add(beep);

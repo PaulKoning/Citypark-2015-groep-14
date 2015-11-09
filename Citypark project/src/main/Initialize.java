@@ -1,4 +1,6 @@
 package main;
+import gui.MainScreen;
+
 import java.rmi.RemoteException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -13,6 +15,7 @@ import java.util.Map;
 import org.apache.axis.utils.StringUtils;
 
 import pasHerkenning.PasHerkenning;
+import threading.Out;
 import BetalingsAfhandeling.PinView;
 import Database.Database;
 import mainReader.Main;
@@ -41,12 +44,12 @@ public class Initialize {
 	public static void PoortOfPin(String pas){
 		//de string pas formatteren zodat die bruikbaar is
 		String Card_ID = pas.replace("\n", "").replace("\r", "");
-		StringUtils.stripEnd(Card_ID, null);
+		StringUtils.stripEnd(Card_ID, null); //Card_ID is de raw kaart id
 		
 		//Pas_ID selecteren
 		databaseCitypark.query("Select Pas_ID FROM pas WHERE Cardid = '"+Card_ID+"'");
 		ArrayList<Map<String, Object>> res = databaseCitypark.getResult();
-		int pas_id = 0;
+		int pas_id = 0; // dit is de id van de pas
 		for(Map<String, Object> row : res) {
 			pas_id =  (int) row.get("Pas_ID");
 			System.out.println(pas_id);
@@ -72,11 +75,14 @@ public class Initialize {
 	     java.util.Date date= new java.util.Date();
 	     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	     String formattedDate = sdf.format(date);
-	     System.out.println(formattedDate);
-		//als er geen begin of eind tijden zijn voor de gebruiker, insert dan een nieuwe record
-		if(begintijd == null){
+		//als er geen begin of eind tijden zijn voor de gebruiker, insert dan een nieuwe record met de huidige tijd
+		if(begintijd == null){ 
 			String insertQuery = ("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Abbonementen_Abbonoment_ID, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0,'"+abbonomenten_id+"','"+pas_id+"')");
 			if(databaseCitypark.update(insertQuery)){
+				System.out.println("Poort gaat nu open. Prettige dag verder!");
+				try{
+				MainScreen.out.beep(); //beep als de poort open gaat
+				}catch(Exception e){}				
 			}else{
 			System.out.println("query begintijd inserten failed");
 			}			
