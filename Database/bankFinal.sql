@@ -85,7 +85,7 @@ INSERT INTO `rekeningshouder` (`Rekeningshouder_ID`, `Voornaam`, `Achternaam`, `
 (2, 'Kevin', 'Freeman', '06-03-1989', 'Bula', '8934FG', 89, '3456237856'),
 (3, 'Jessica', 'Lewis', '06-03-1967', 'San RamÃ³n', '3423FG', 23, '0634563456'),
 (4, 'Heather', 'Gardner', '12-12-1956', 'Melbourne', '3456ER', 90, '050123456');
-
+(10000, 'Bank', 'Bank', 01-01-1950',  'Assen', '1234XD', 12, '123456789');
 -- --------------------------------------------------------
 
 --
