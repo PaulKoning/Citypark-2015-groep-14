@@ -53,17 +53,17 @@ include ("include/dbconnect.php");
         <div id = "registratie">
             <form method = "post">
                 <table>
-<td>Uw voornaam: </td><td><input type = "text", name = "naam"></td><tr>
-<td>Uw achternaam: </td><td><input type = "text", name = "achternaam"></td><tr>
-<td>Uw gebruikersnaam: </td><td><input type = "text", name = "gebruikersnaam"></td><tr>
-<td>Uw rekeningsnummer: </td><td><input type = "text", name = "reknummer"></td><tr>
+<td>Uw voornaam: </td><td><input type = "text", name = "naam" <?php if (isset($_POST['naam'])) echo 'value="'.$_POST['naam'].'"';?>></td><tr>
+<td>Uw achternaam: </td><td><input type = "text", name = "achternaam" <?php if (isset($_POST['achternaam'])) echo 'value="'.$_POST['achternaam'].'"';?>></td><tr>
+<td>Uw gebruikersnaam: </td><td><input type = "text", name = "gebruikersnaam" <?php if (isset($_POST['gebruikersnaam'])) echo 'value="'.$_POST['gebruikersnaam'].'"';?>></td><tr>
+<td>Uw rekeningsnummer: </td><td><input type = "text", name = "reknummer" <?php if (isset($_POST['reknummer'])) echo 'value="'.$_POST['reknummer'].'"';?>></td><tr>
 <td>Uw wachtwoord: </td><td><input type = "password" name = "wachtwoord"><i>Wachtwoord minimaal 6 tekens lang</i></td><tr>
-<td>Bevestig wachtwoord: </td><td><input type = "password" name = "bevestig_wachtwoord"></td><tr>
-<td>Adres: </td><td><input type = "text" name = "straat"></td><tr>
-<td>Postcode: </td><td><input type = "text" name = "postcode"></td><tr>
-<td>Woonplaats: </td><td><input type = "text" name = "woonplaats"></td><tr>
-<td>Telefoonnummer: </td><td><input type = "text" name = "tel_nr"></td><tr>
-<td>Email: </td><td><input type = "text" name = "email"></td><tr>
+<td>Bevestig wachtwoord: </td><td><input type = "password" name = "bevestig_wachtwoord"<?php if (isset($_POST['password'])) echo 'value="'.$_POST['password'].'"';?>></td><tr>
+<td>Adres: </td><td><input type = "text" name = "straat"<?php if (isset($_POST['straat'])) echo 'value="'.$_POST['straat'].'"';?>></td><tr>
+<td>Postcode: </td><td><input type = "text" name = "postcode"<?php if (isset($_POST['postcode'])) echo 'value="'.$_POST['postcode'].'"';?>></td><tr>
+<td>Woonplaats: </td><td><input type = "text" name = "woonplaats"<?php if (isset($_POST['woonplaats'])) echo 'value="'.$_POST['woonplaats'].'"';?>></td><tr>
+<td>Telefoonnummer: </td><td><input type = "text" name = "tel_nr"<?php if (isset($_POST['tel_nr'])) echo 'value="'.$_POST['tel_nr'].'"';?>></td><tr>
+<td>Email: </td><td><input type = "text" name = "email"<?php if (isset($_POST['email'])) echo 'value="'.$_POST['email'].'"';?>></td><tr>
 <td><button type = "submit" name = "submit">Registreer</button></td>
                 </table>
             </form>

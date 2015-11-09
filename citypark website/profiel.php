@@ -11,7 +11,7 @@ if (!$result) {
 
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <html>
@@ -75,7 +75,7 @@ if (!$result) {
 
             <?php
             while($subject1 = mysqli_fetch_assoc($result)) {
-            $voornaam = $subject1["Voornaam"];
+                $voornaam = $subject1["Voornaam"];
                 $achternaam=$subject1["Achternaam"];
                 $gebruikersnaam=$subject1["Gebruikersnaam"];
                 $rekening=$subject1["Rekeningsnummer"];
@@ -89,40 +89,43 @@ if (!$result) {
             ?>
 
 
-             <form action="profiel.php" method="post">
+            <form method="post">
                 Voornaam:<br>
-                <input type="text" name="voornaam" value="<?php echo $voornaam; ?>">
+                <input type="text" name="naam" value="<?php echo $voornaam; ?>">
                 <br>
-               Achternaam:<br>
+                Achternaam:<br>
                 <input type="text" name="achternaam" value="<?php echo $achternaam; ?>">
                 <br>
                 Gebruikersnaam:<br>
                 <input type="text" name="gebruikersnaam" value="<?php echo $gebruikersnaam; ?>">
                 <br>
                 rekeningnummer:<br>
-                <input type="text" name="rekening" value="<?php echo $rekening; ?>">
+                <input type="text" name="reknummer" value="<?php echo $rekening; ?>">
                 <br>
                 Wachtwoord:<br>
-                <input type="password" name="wachtwoord" value="<?php echo $wachtwoord; ?>">
+                <input type="password" name="wachtwoord" value="">
                 <br>
-                adres:<br>
-                <input type="text" name="adres" value= "<?php echo $adres; ?>">
+                bevestig wachtwoord:<br>
+                <input type="password" name="bevestig_wachtwoord" value="">
+                <br>
+                straat:<br>
+                <input type="text" name="straat" value= "<?php echo $adres; ?>">
                 <br>
                 Postcode:<br>
                 <input type="text" name="postcode" value="<?php echo $postcode; ?>">
-            <br>
-            Woonplaats:<br>
-            <input type="text" name="woonplaats" value="<?php echo $woonplaats; ?>">
-            <br>
+                <br>
+                Woonplaats:<br>
+                <input type="text" name="woonplaats" value="<?php echo $woonplaats; ?>">
+                <br>
                 Telefoonnummer:<br>
-                <input type="text" name="telefoon" value="<?php echo $telefoon; ?>">
+                <input type="text" name="tel_nr" value="<?php echo $telefoon; ?>">
                 <br>
                 E-mail:<br>
                 <input type="text" name="email" value="<?php echo $email; ?>">
                 <br>
-                 <br>
-                 <br>
-                <input type="submit" value="Wijzig">
+                <br>
+                <br>
+                <td><button type = "submit" name = "submit">Wijzig</button></td>
                 </br>
                 </br>
 
@@ -154,3 +157,65 @@ if (!$result) {
 </div>
 </body>
 </html>
+
+
+<?php // Controle op invoer van het registratie formulier
+if (isset($_POST["submit"])) {
+    if (empty($_POST["naam"]) || is_numeric($_POST["naam"])) {
+        echo "Uw naam is niet juist ingevuld" . "<br/>";
+    } else {
+        $naam = $_POST["naam"];
+        $achternaam = $_POST["achternaam"];
+        $gebruikersnaam = $_POST["gebruikersnaam"];
+        $rekeningsnummer = $_POST["reknummer"];
+    }
+    if ($_POST["wachtwoord"] == $_POST ["bevestig_wachtwoord"]) {
+        if (empty($_POST["wachtwoord"]) || strlen($_POST["wachtwoord"]) < 6 && strlen($_POST["wachtwoord"]) > 21) {
+            echo "Uw heeft uw wachtwoord niet juist ingevuld" . "<br/>";
+        } else {
+            $wachtwoord = $_POST["wachtwoord"];
+        }
+    } else {
+        echo "U heeft uw wachtwoord niet bevestigd" . "<br/>";
+    }
+    if (empty($_POST["straat"])) {
+        echo "Uw adres is niet juist ingevuld" . "<br/>";
+    } else {
+        $straat = $_POST["straat"];
+    }
+
+    if (empty($_POST["postcode"]) || !preg_match("/^[1-9]{1}[0-9]{3}[A-Z]{2}$/", $_POST["postcode"])) {
+        echo "Uw postcode is niet juist ingevuld" . "<br/>";
+    } else {
+        $postcode = $_POST["postcode"];
+    }
+    if (empty($_POST["woonplaats"])) {
+        echo "Uw woonplaats is niet juist ingevuld" . "<br/>";
+    } else {
+        $woonplaats = $_POST["woonplaats"];
+    }
+
+    $telefoonnummer = $_POST["tel_nr"];
+    if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+        echo "Email is niet juist ingevuld" . "<br/>";
+    } else {
+        $email = $_POST["email"];
+    }
+
+}
+
+if (isset($naam, $wachtwoord, $straat, $postcode, $woonplaats, $telefoonnummer, $email)) {
+    echo "Uw registratie is gelukt." . "<br/>";
+
+    // SQL Query aanmaken voor gebruiker
+   $reg_klant = "update gebruiker  ";
+    $reg_klant .= " SET ";
+    $reg_klant .= " voornaam= '$naam', achternaam = '$achternaam', rekeningsnummer = '$rekeningsnummer', Adres = '$straat', ";
+    $reg_klant .= " Woonplaats= '$woonplaats', Postcode= '$postcode', Telefoonnummer= '$telefoonnummer', Email= '$email', Wachtwoord= '$wachtwoord', gebruikersnaam = '$gebruikersnaam'  ";
+    $reg_klant .= " where Gebruiker_ID = '$userid' ";
+
+    $registratie = mysqli_query($connection,$reg_klant);
+
+}
+
+?>
