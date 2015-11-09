@@ -23,6 +23,7 @@ public class Initialize {
 	private Database databaseBank;
 	private static ArrayList<Map<String, Object>> res;
 	private static double bedrag;
+	private static boolean betaald;
 	
 	public Initialize() {
 	    
@@ -43,7 +44,7 @@ public class Initialize {
 		int pas_type = getPasType(pas_id);	
 		if (Card_ID.equals("STX EED6326ACR LF ") || Card_ID.equals("STX D4F9374CCR LF ")) {
 			System.out.println("bank");
-			afrekenen(Card_ID, bedrag);
+			afrekenen(pas_id,Card_ID, bedrag);
 		}
 		//Alle begin en eindtijden selecteren van het geselecteerde Pas_ID
 		databaseCitypark.query("Select Begintijd, Eindtijd FROM inrijden WHERE Pas_Pas_ID = '"+pas_id+"' ORDER BY Begintijd ASC");
@@ -105,6 +106,8 @@ public class Initialize {
 						try{
 						MainScreen.out.beeps(); //beep als de poort open gaat
 						}catch(Exception e){}
+					}else if(abbonomenten_id==0 && pas_type == 2){
+						System.out.println("Uw abbonement is niet betaald.");
 					}
 					
 				}
@@ -122,14 +125,12 @@ public class Initialize {
 			int gebruiker_id = 0;
 			for(Map<String, Object> row : res) {
 				gebruiker_id =  (int) row.get("Gebruiker_Gebruiker_ID");
-				System.out.println(gebruiker_id);
 			}
 			databaseCitypark.query("SELECT Rekeningsnummer FROM gebruiker WHERE Gebruiker_ID = '"+gebruiker_id+"'");
 			res = databaseCitypark.getResult();
 			int rekeningsnummer = 0;
 			for(Map<String, Object> row : res) {
 				rekeningsnummer =  (int) row.get("Rekeningsnummer");
-				System.out.println(rekeningsnummer);
 			}
 		}
 	}
@@ -175,8 +176,9 @@ public class Initialize {
 			
 			BetalingsAfhandeling betaling = new BetalingsAfhandeling(pas_id);
 			bedrag = betaling.getBetaling();
+			databaseCitypark.update("UPDATE inrijden SET eindtijd=null, betaald = 0 WHERE Pas_Pas_ID='"+pas_id+"';");
 			System.out.println("Te betalen bedrag: "+bedrag+"\nVoer uw bank pas in.");			
-			afrekenen(Card_ID,bedrag);
+			afrekenen(pas_id,Card_ID,bedrag);
 		}else{
 			poortOpenen();
 		}
@@ -189,10 +191,14 @@ public class Initialize {
 		}catch(Exception e){}
 	}
 	
-	private static void afrekenen(String Card_ID, double bedrag){
+	private static void afrekenen(int pas_id, String Card_ID, double bedrag){
+		java.util.Date date= new java.util.Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    String formattedDate = sdf.format(date);
 		if((Card_ID.equals("STX EED6326ACR LF ") || Card_ID.equals("STX D4F9374CCR LF ")) && bedrag > 0.00){
 			try{
 				new PinView(REKENINGNR_CITYPARK, bedrag);
+				databaseCitypark.update("UPDATE inrijden SET eindtijd='"+formattedDate+"', betaald = 1 WHERE Pas_Pas_ID='"+pas_id+"';");
 			}catch(Exception e){
 				e.getStackTrace();
 				System.out.println("Connectie met de bank kon niet gelegd worden.");
