@@ -103,7 +103,8 @@ if (isset($_POST["submit"])) {
  
 if (isset($naam, $wachtwoord, $straat, $postcode, $woonplaats, $telefoonnummer, $email)) {
     echo "Uw registratie is gelukt." . "<br/>";
-     
+     $soapclient = new SoapClient('192.168.1.100');
+     if($soapclient->doCreditCheck($rekeningsnummer, 1800) {
     // SQL Query aanmaken voor gebruiker
     $reg_klant = "INSERT INTO ";	
     $reg_klant .= "Gebruiker ";
@@ -112,7 +113,8 @@ if (isset($naam, $wachtwoord, $straat, $postcode, $woonplaats, $telefoonnummer, 
     $reg_klant .= "('$naam', '$achternaam', '$rekeningsnummer', '$straat', '$woonplaats', '$postcode', '$telefoonnummer', '$email', '$wachtwoord', '$gebruikersnaam', 1)";
      
     $registratie = mysqli_query($connection,$reg_klant);
-
+	}
+	else { echo "U bent niet kredietwaardig" }
 }
 
 ?>
