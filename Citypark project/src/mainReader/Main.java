@@ -12,7 +12,7 @@ public class Main {
 	private MainScreen mainscreen;
 	
 	public Main() throws Exception {
-		setting=new CommSetting("ttyUSB0", 9600, 
+		setting=new CommSetting("COM1", 9600, 
 				SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
 				SerialPort.PARITY_NONE, SerialPort.FLOWCONTROL_NONE);
 		comm=new Comm(setting);
