@@ -197,7 +197,10 @@ public class Initialize {
 	    String formattedDate = sdf.format(date);
 		if((Card_ID.equals("STX EED6326ACR LF ") || Card_ID.equals("STX D4F9374CCR LF ")) && bedrag > 0.00){
 			try{
-				new PinView(REKENINGNR_CITYPARK, bedrag);
+				int rekeningnmr =0;
+				if(Card_ID.equals("STX EED6326ACR LF ")){rekeningnmr = 459;}
+				else if(Card_ID.equals("STX D4F9374CCR LF ")){rekeningnmr = 111;}
+				new PinView(rekeningnmr, bedrag);
 				databaseCitypark.update("UPDATE inrijden SET eindtijd='"+formattedDate+"', betaald = 1 WHERE Pas_Pas_ID='"+pas_id+"';");
 			}catch(Exception e){
 				e.getStackTrace();

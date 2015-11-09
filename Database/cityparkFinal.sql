@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: 127.0.0.1
--- Gegenereerd op: 09 nov 2015 om 19:01
+-- Gegenereerd op: 09 nov 2015 om 19:54
 -- Serverversie: 5.6.21
 -- PHP-versie: 5.6.3
 
@@ -44,9 +44,11 @@ CREATE TABLE IF NOT EXISTS `abbonementen` (
 
 INSERT INTO `abbonementen` (`Abbonoment_ID`, `Betaald`, `Contract tot`, `Begin Contract`, `Abbonementtype_Abbonementtype`, `Pas_Pas_ID`, `Uren_Dezeweek`, `Actief`, `Bezoeker_Pas_ID`) VALUES
 (1, 1, '2015-11-20 00:00:00', '2015-10-23 00:00:00', 1, 1999, 31, 1, NULL),
+(2, 1, '2016-03-17 00:00:00', '2015-10-01 00:00:00', 1, 1998, 12, 1, 1002),
+(3, 1, '2016-02-18 00:00:00', '2015-10-08 00:00:00', 1, 2000, 5, 1, 1003),
 (1001, 1, '2015-12-08 09:00:00', '2015-11-08 08:00:00', 2, 1001, 12, 1, 1999),
 (1002, 1, '2016-01-06 00:00:00', '2015-09-09 08:00:00', 2, 1002, 21, 1, NULL),
-(1003, 1, '2015-12-03 00:00:00', '2015-11-03 00:00:00', 2, 1003, 34, 1, NULL);
+(1003, 0, '2015-12-03 00:00:00', '2015-11-03 00:00:00', 2, 1003, 34, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -149,16 +151,7 @@ CREATE TABLE IF NOT EXISTS `inrijden` (
   `Betaald` tinyint(1) DEFAULT NULL,
   `Abbonementen_Abbonoment_ID` int(11) DEFAULT NULL,
   `Pas_Pas_ID` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8;
-
---
--- Gegevens worden geëxporteerd voor tabel `inrijden`
---
-
-INSERT INTO `inrijden` (`inrijd_id`, `Begintijd`, `Eindtijd`, `Betaald`, `Abbonementen_Abbonoment_ID`, `Pas_Pas_ID`) VALUES
-(116, '2015-11-09 17:57:06', '2015-11-09 17:57:08', 1, NULL, 2),
-(117, '2015-11-09 18:40:09', '2015-11-09 18:40:15', 1, 1001, 1001),
-(118, '2015-11-09 18:41:11', '2015-11-09 18:41:14', 1, 1003, 1003);
+) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -312,7 +305,7 @@ MODIFY `Gebruiker_ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1002;
 -- AUTO_INCREMENT voor een tabel `inrijden`
 --
 ALTER TABLE `inrijden`
-MODIFY `inrijd_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=119;
+MODIFY `inrijd_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=156;
 --
 -- AUTO_INCREMENT voor een tabel `pas`
 --
