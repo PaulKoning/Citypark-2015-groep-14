@@ -81,7 +81,7 @@ public class Initialize {
 					String insertQueryZonder = ("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0, '"+pas_id+"')");		
 					if(pas_type==4 && uren_dezeweek <32){
 						if(databaseCitypark.update(insertQueryMet)){
-							System.out.println("Poort gaat nu open. Parkeer uw auto.");
+							System.out.println("Welkom bezoeker! Poort gaat nu open. Parkeer uw auto.");
 							try{
 							MainScreen.out.beeps(); //beep als de poort open gaat
 							}catch(Exception e){}				
@@ -92,7 +92,7 @@ public class Initialize {
 								
 					if(abbonomenten_id==0 && pas_type == 1){
 						if(databaseCitypark.update(insertQueryZonder)){
-							System.out.println("Poort gaat nu open. Parkeer uw auto.");
+							System.out.println("Welkom! Poort gaat nu open. Parkeer uw auto.");
 							try{
 							MainScreen.out.beeps(); //beep als de poort open gaat
 							}catch(Exception e){}				
@@ -101,7 +101,7 @@ public class Initialize {
 						}	
 					}else if(abbonomenten_id != 0 && pas_type != 4){
 						databaseCitypark.update(insertQueryMet);
-						System.out.println("Poort gaat nu open. Parkeer uw auto.");
+						System.out.println("Welkom abonnee! Poort gaat nu open. Parkeer uw auto.");
 						try{
 						MainScreen.out.beeps(); //beep als de poort open gaat
 						}catch(Exception e){}
@@ -117,9 +117,7 @@ public class Initialize {
 		}
 		
 		//Rekeningsnummer selecteren van de Card_ID
-		if(databaseCitypark.query("SELECT Gebruiker_Gebruiker_ID FROM pas WHERE Cardid = '"+Card_ID+"'")){
-			System.out.println(PasHerkenning.pasHerkenning(pas));
-			
+		if(databaseCitypark.query("SELECT Gebruiker_Gebruiker_ID FROM pas WHERE Cardid = '"+Card_ID+"'")){			
 			res = databaseCitypark.getResult();
 			int gebruiker_id = 0;
 			for(Map<String, Object> row : res) {
@@ -193,7 +191,12 @@ public class Initialize {
 	
 	private static void afrekenen(String Card_ID, double bedrag){
 		if((Card_ID.equals("STX EED6326ACR LF ") || Card_ID.equals("STX D4F9374CCR LF ")) && bedrag > 0.00){
-			new PinView(REKENINGNR_CITYPARK, bedrag);
+			try{
+				new PinView(REKENINGNR_CITYPARK, bedrag);
+			}catch(Exception e){
+				e.getStackTrace();
+				System.out.println("Connectie met de bank kon niet gelegd worden.");
+			}
 		}
 	}
 }
