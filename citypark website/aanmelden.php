@@ -129,7 +129,7 @@ if (isset($naam, $wachtwoord, $straat, $postcode, $woonplaats, $telefoonnummer, 
         echo "Uw registratie is gelukt." . "<br/>";
 		}
 else {
-	 echo "U bent niet kredietwaardig"; 
+	 echo "U bent niet kredietwaardig"; //poor
 }}
 
 ?>
