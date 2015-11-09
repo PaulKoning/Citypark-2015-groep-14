@@ -22,6 +22,8 @@ public class Initialize {
 	private static Database databaseCitypark;
 	private Database databaseBank;
 	private static ArrayList<Map<String, Object>> res;
+	private static double bedrag;
+	
 	public Initialize() {
 	    
 		try{
@@ -35,9 +37,17 @@ public class Initialize {
 	}
 	
 	public static void PoortOfPin(String pas){
-		String Card_ID = pas;
+		String Card_ID = pas.replace("\n", "").replace("\r", "");		
+		StringUtils.stripEnd(Card_ID, null); //Card_ID is de raw kaart id
 		int pas_id = getPasId(Card_ID);	
 		int pas_type = getPasType(pas_id);	
+		System.out.println(Card_ID);
+		System.out.println(pas_id);
+		System.out.println(pas_type);
+		if (Card_ID.equals("STX EED6326ACR LF ") || Card_ID.equals("STX D4F9374CCR LF ")) {
+			System.out.println("bank");
+			afrekenen(Card_ID, bedrag);
+		}
 		//Alle begin en eindtijden selecteren van het geselecteerde Pas_ID
 		databaseCitypark.query("Select Begintijd, Eindtijd FROM inrijden WHERE Pas_Pas_ID = '"+pas_id+"' ORDER BY Begintijd ASC");
 		res = databaseCitypark.getResult();
@@ -102,11 +112,11 @@ public class Initialize {
 					
 				}
 	    	 }catch(Exception e){
-	    		 uitrijden(pas_id,pas_type);
+	    		 uitrijden(pas_id,pas_type,Card_ID);
 	    	 }
 			
 		}else if(eindtijd == null){
-			uitrijden(pas_id,pas_type);
+			uitrijden(pas_id,pas_type, Card_ID);
 		}
 		
 		//Rekeningsnummer selecteren van de Card_ID
@@ -161,19 +171,17 @@ public class Initialize {
 		return pas_id;
 	}
 	
-	private static void uitrijden(int pas_id, int pas_type){
-		
-		
+	private static void uitrijden(int pas_id, int pas_type, String Card_ID){	
 		java.util.Date date= new java.util.Date();
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	    String formattedDate = sdf.format(date);
-		databaseCitypark.update("UPDATE inrijden SET eindtijd='"+formattedDate+"' WHERE Pas_Pas_ID='"+pas_id+"';");
+		databaseCitypark.update("UPDATE inrijden SET eindtijd='"+formattedDate+"', betaald = 1 WHERE Pas_Pas_ID='"+pas_id+"';");
 		if(pas_type == 1){
 			
 			BetalingsAfhandeling betaling = new BetalingsAfhandeling(pas_id);
-			double bedrag = betaling.getBetaling();
-			System.out.println("Te betalen bedrag: "+bedrag+"\nVoer uw bank pas in.");
-			new PinView(REKENINGNR_CITYPARK, bedrag);
+			bedrag = betaling.getBetaling();
+			System.out.println("Te betalen bedrag: "+bedrag+"\nVoer uw bank pas in.");			
+			afrekenen(Card_ID,bedrag);
 		}else{
 			poortOpenen();
 		}
@@ -184,6 +192,12 @@ public class Initialize {
 		try{
 			MainScreen.out.beep(); //beep als de poort open gaat
 		}catch(Exception e){}
+	}
+	
+	private static void afrekenen(String Card_ID, double bedrag){
+		if((Card_ID.equals("STX EED6326ACR LF ") || Card_ID.equals("STX D4F9374CCR LF ")) && bedrag > 0.00){
+			new PinView(REKENINGNR_CITYPARK, bedrag);
+		}
 	}
 }
 

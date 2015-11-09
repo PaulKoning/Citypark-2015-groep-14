@@ -44,6 +44,7 @@ public class BetalingsAfhandeling {
 		list = connection.getResult();		
 		for(int i = 0; i < list.size(); i++) {   
 			nextInc((Timestamp)list.get(i).get("Begintijd"), (Timestamp)list.get(i).get("Eindtijd"));
+			System.out.println((Timestamp)list.get(i).get("Eindtijd"));
 		}
 	}
 	
