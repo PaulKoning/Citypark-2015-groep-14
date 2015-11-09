@@ -22,7 +22,7 @@ public class BankServiceLocator extends org.apache.axis.client.Service implement
     }
 
     // Use to get a proxy class for Bank
-    private java.lang.String Bank_address = "localhost:8080/Bank/services/Bank";
+    private java.lang.String Bank_address = "http://localhost:8080/Bank/services/Bank";
 
     public java.lang.String getBankAddress() {
         return Bank_address;

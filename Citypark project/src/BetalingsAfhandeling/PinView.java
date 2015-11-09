@@ -24,7 +24,7 @@ public class PinView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	String pin;
 	JLabel scherm;
-	private static final int REKENINGSID_CITYPARK = 1;
+	private static final int REKENINGSID_CITYPARK = 100000;
 	private boolean betaald = false;
 	
 	public PinView(final int rekeningsnummer, final double bedrag) {
