@@ -41,9 +41,6 @@ public class Initialize {
 		StringUtils.stripEnd(Card_ID, null); //Card_ID is de raw kaart id
 		int pas_id = getPasId(Card_ID);	
 		int pas_type = getPasType(pas_id);	
-		System.out.println(Card_ID);
-		System.out.println(pas_id);
-		System.out.println(pas_type);
 		if (Card_ID.equals("STX EED6326ACR LF ") || Card_ID.equals("STX D4F9374CCR LF ")) {
 			System.out.println("bank");
 			afrekenen(Card_ID, bedrag);
@@ -86,7 +83,7 @@ public class Initialize {
 						if(databaseCitypark.update(insertQueryMet)){
 							System.out.println("Poort gaat nu open. Parkeer uw auto.");
 							try{
-							MainScreen.out.beep(); //beep als de poort open gaat
+							MainScreen.out.beeps(); //beep als de poort open gaat
 							}catch(Exception e){}				
 						}else{
 							System.out.println("Deze bezoekerpas is niet gekoppeld aan een abbonement!");
@@ -97,7 +94,7 @@ public class Initialize {
 						if(databaseCitypark.update(insertQueryZonder)){
 							System.out.println("Poort gaat nu open. Parkeer uw auto.");
 							try{
-							MainScreen.out.beep(); //beep als de poort open gaat
+							MainScreen.out.beeps(); //beep als de poort open gaat
 							}catch(Exception e){}				
 						}else{
 								System.out.println("error query zonder");
@@ -106,7 +103,7 @@ public class Initialize {
 						databaseCitypark.update(insertQueryMet);
 						System.out.println("Poort gaat nu open. Parkeer uw auto.");
 						try{
-						MainScreen.out.beep(); //beep als de poort open gaat
+						MainScreen.out.beeps(); //beep als de poort open gaat
 						}catch(Exception e){}
 					}
 					
@@ -190,7 +187,7 @@ public class Initialize {
 	private static void poortOpenen(){
 		System.out.println("Poort gaat open. Fijne dag verder en tot ziens!");
 		try{
-			MainScreen.out.beep(); //beep als de poort open gaat
+			MainScreen.out.beeps(); //beep als de poort open gaat
 		}catch(Exception e){}
 	}
 	
