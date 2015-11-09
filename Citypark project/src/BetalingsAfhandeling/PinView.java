@@ -35,6 +35,7 @@ public class PinView extends JFrame {
 		//lege JLabel om de positie van het scherm goed te krijgen in de grid
 		contents.add(new JLabel(""));
 		scherm = new JLabel("", SwingConstants.CENTER);
+		scherm.setText(String.valueOf(bedrag));
 		contents.add(scherm);
 		contents.add(new JLabel(""));
 		//De knoppen voor 1 tot 9

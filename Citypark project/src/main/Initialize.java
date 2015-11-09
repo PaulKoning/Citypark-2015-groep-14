@@ -1,21 +1,15 @@
 package main;
 import gui.MainScreen;
 
-import java.rmi.RemoteException;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Map;
 
 import org.apache.axis.utils.StringUtils;
 
 import pasHerkenning.PasHerkenning;
-import threading.Out;
+import BetalingsAfhandeling.BetalingsAfhandeling;
 import BetalingsAfhandeling.PinView;
 import Database.Database;
 import mainReader.Main;
@@ -27,7 +21,6 @@ public class Initialize {
 	private static final int REKENINGNR_CITYPARK = 100000;
 	private static Database databaseCitypark;
 	private Database databaseBank;
-	private static Timestamp tijd;
 	private static ArrayList<Map<String, Object>> res;
 	public Initialize() {
 	    
@@ -54,17 +47,12 @@ public class Initialize {
 		for(int i = 0; i < res.size(); i++) { 
 			eindtijd =  (Timestamp) res.get(i).get("Eindtijd");
 			begintijd =  (Timestamp) res.get(i).get("Begintijd");
-		}
-		
-		System.out.println(begintijd);
-		System.out.println(eindtijd);
+		}		
 		//timestamp aanmaken van huidige tijd
-	     java.util.Date date= new java.util.Date();
-	     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	     String formattedDate = sdf.format(date);
-	     Timestamp test = Timestamp.valueOf(formattedDate);
-	     	 
-	     System.out.println("abbo"+res);
+		java.util.Date date= new java.util.Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    String formattedDate = sdf.format(date);
+	    Timestamp test = Timestamp.valueOf(formattedDate);
 		//als er geen begin of eind tijden zijn voor de gebruiker, insert dan een nieuwe record met de huidige tijd
 	     if(eindtijd != null || res.isEmpty()){
 	    	 try{
@@ -75,9 +63,8 @@ public class Initialize {
 				     for(Map<String, Object> row : res) {
 				    	 uren_dezeweek =  (int) row.get("Uren_Dezeweek");	     
 				     }	
-				     System.out.println(res);
 				     //abbonomenten id zoeken
-				     databaseCitypark.query("Select Abbonoment_ID FROM abbonementen WHERE Pas_Pas_ID = '"+pas_id+"'");
+				     databaseCitypark.query("Select Abbonoment_ID FROM abbonementen WHERE Pas_Pas_ID = '"+pas_id+"' AND Betaald = 1");
 				     res = databaseCitypark.getResult();
 				     int abbonomenten_id = 0;
 				     for(Map<String, Object> row : res) {
@@ -87,18 +74,18 @@ public class Initialize {
 					String insertQueryZonder = ("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0, '"+pas_id+"')");		
 					if(pas_type==4 && uren_dezeweek <32){
 						if(databaseCitypark.update(insertQueryMet)){
-							System.out.println("Poort gaat nu open. Prettige dag verder!");
+							System.out.println("Poort gaat nu open. Parkeer uw auto.");
 							try{
 							MainScreen.out.beep(); //beep als de poort open gaat
 							}catch(Exception e){}				
 						}else{
-								System.out.println("error query zonder");
+							System.out.println("Deze bezoekerpas is niet gekoppeld aan een abbonement!");
 						}
 					}
 								
 					if(abbonomenten_id==0 && pas_type == 1){
 						if(databaseCitypark.update(insertQueryZonder)){
-							System.out.println("Poort gaat nu open. Prettige dag verder!");
+							System.out.println("Poort gaat nu open. Parkeer uw auto.");
 							try{
 							MainScreen.out.beep(); //beep als de poort open gaat
 							}catch(Exception e){}				
@@ -107,7 +94,7 @@ public class Initialize {
 						}	
 					}else if(abbonomenten_id != 0 && pas_type != 4){
 						databaseCitypark.update(insertQueryMet);
-						System.out.println("Poort gaat nu open. Prettige dag verder!");
+						System.out.println("Poort gaat nu open. Parkeer uw auto.");
 						try{
 						MainScreen.out.beep(); //beep als de poort open gaat
 						}catch(Exception e){}
@@ -115,11 +102,11 @@ public class Initialize {
 					
 				}
 	    	 }catch(Exception e){
-	    		 uitrijden();
+	    		 uitrijden(pas_id,pas_type);
 	    	 }
 			
 		}else if(eindtijd == null){
-			uitrijden();
+			uitrijden(pas_id,pas_type);
 		}
 		
 		//Rekeningsnummer selecteren van de Card_ID
@@ -174,8 +161,29 @@ public class Initialize {
 		return pas_id;
 	}
 	
-	private static void uitrijden(){
+	private static void uitrijden(int pas_id, int pas_type){
 		
+		
+		java.util.Date date= new java.util.Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    String formattedDate = sdf.format(date);
+		databaseCitypark.update("UPDATE inrijden SET eindtijd='"+formattedDate+"' WHERE Pas_Pas_ID='"+pas_id+"';");
+		if(pas_type == 1){
+			
+			BetalingsAfhandeling betaling = new BetalingsAfhandeling(pas_id);
+			double bedrag = betaling.getBetaling();
+			System.out.println("Te betalen bedrag: "+bedrag+"\nVoer uw bank pas in.");
+			new PinView(REKENINGNR_CITYPARK, bedrag);
+		}else{
+			poortOpenen();
+		}
+	}
+	
+	private static void poortOpenen(){
+		System.out.println("Poort gaat open. Fijne dag verder en tot ziens!");
+		try{
+			MainScreen.out.beep(); //beep als de poort open gaat
+		}catch(Exception e){}
 	}
 }
 
