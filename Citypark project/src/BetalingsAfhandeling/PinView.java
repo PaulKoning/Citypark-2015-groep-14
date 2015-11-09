@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import com.sun.glass.events.WindowEvent;
+
 import bankclient.BankProxy;
 
 /**
@@ -60,9 +62,9 @@ public class PinView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				BankProxy bank = new BankProxy();
 				try {
-					if(bank.transferMetPin(rekeningsnummer, REKENINGSID_CITYPARK, bedrag, Integer.parseInt(pin))) {
-						scherm.setText("Geslaagd");
+					if(bank.transferMetPin(rekeningsnummer, REKENINGSID_CITYPARK, bedrag, Integer.parseInt(pin))) {						
 						betaald = true;
+						scherm.setText("Geslaagd");
 					} else {
 						scherm.setText("Afgebroken");
 						pin = "";

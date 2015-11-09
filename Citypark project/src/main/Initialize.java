@@ -24,6 +24,8 @@ public class Initialize {
 	private static ArrayList<Map<String, Object>> res;
 	private static double bedrag;
 	private static boolean betaald;
+	private static String Card_ID;
+	private static int pas_id2;
 	
 	public Initialize() {
 	    
@@ -38,99 +40,104 @@ public class Initialize {
 	}
 	
 	public static void PoortOfPin(String pas){
-		String Card_ID = pas.replace("\n", "").replace("\r", "");		
+		Card_ID = pas.replace("\n", "").replace("\r", "");		
 		StringUtils.stripEnd(Card_ID, null); //Card_ID is de raw kaart id
-		int pas_id = getPasId(Card_ID);	
-		int pas_type = getPasType(pas_id);	
-		if (Card_ID.equals("STX EED6326ACR LF ") || Card_ID.equals("STX D4F9374CCR LF ")) {
-			System.out.println("bank");
-			afrekenen(pas_id,Card_ID, bedrag);
-		}
-		//Alle begin en eindtijden selecteren van het geselecteerde Pas_ID
-		databaseCitypark.query("Select Begintijd, Eindtijd FROM inrijden WHERE Pas_Pas_ID = '"+pas_id+"' ORDER BY Begintijd ASC");
-		res = databaseCitypark.getResult();
-		Timestamp eindtijd = null;
-		Timestamp begintijd = null;
-		//for(Map<String, Object> row : res) {
-		for(int i = 0; i < res.size(); i++) { 
-			eindtijd =  (Timestamp) res.get(i).get("Eindtijd");
-			begintijd =  (Timestamp) res.get(i).get("Begintijd");
-		}		
-		//timestamp aanmaken van huidige tijd
-		java.util.Date date= new java.util.Date();
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	    String formattedDate = sdf.format(date);
-	    Timestamp test = Timestamp.valueOf(formattedDate);
-		//als er geen begin of eind tijden zijn voor de gebruiker, insert dan een nieuwe record met de huidige tijd
-	     if(eindtijd != null || res.isEmpty()){
-	    	 try{
-				if(begintijd == null || (test.after(eindtijd))){
-					databaseCitypark.update("SELECT Uren_Dezeweek FROM abbonementen WHERE Pas_Pas_ID = '"+pas_id+"'");
-					int uren_dezeweek = 0;
-					res = databaseCitypark.getResult();
-				     for(Map<String, Object> row : res) {
-				    	 uren_dezeweek =  (int) row.get("Uren_Dezeweek");	     
-				     }	
-				     //abbonomenten id zoeken
-				     databaseCitypark.query("Select Abbonoment_ID FROM abbonementen WHERE Pas_Pas_ID = '"+pas_id+"' AND Betaald = 1");
-				     res = databaseCitypark.getResult();
-				     int abbonomenten_id = 0;
-				     for(Map<String, Object> row : res) {
-				    	 abbonomenten_id =  (int) row.get("Abbonoment_ID");	     
-				     }
-				     String insertQueryMet = ("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Abbonementen_Abbonoment_ID, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0,'"+abbonomenten_id+"','"+pas_id+"')");
-					String insertQueryZonder = ("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0, '"+pas_id+"')");		
-					if(pas_type==4 && uren_dezeweek <32){
-						if(databaseCitypark.update(insertQueryMet)){
-							System.out.println("Welkom bezoeker! Poort gaat nu open. Parkeer uw auto.");
-							try{
-							MainScreen.out.beeps(); //beep als de poort open gaat
-							}catch(Exception e){}				
-						}else{
-							System.out.println("Deze bezoekerpas is niet gekoppeld aan een abbonement!");
-						}
-					}
-								
-					if(abbonomenten_id==0 && pas_type == 1){
-						if(databaseCitypark.update(insertQueryZonder)){
-							System.out.println("Welkom! Poort gaat nu open. Parkeer uw auto.");
-							try{
-							MainScreen.out.beeps(); //beep als de poort open gaat
-							}catch(Exception e){}				
-						}else{
-								System.out.println("error query zonder");
-						}	
-					}else if(abbonomenten_id != 0 && pas_type != 4){
-						databaseCitypark.update(insertQueryMet);
-						System.out.println("Welkom abonnee! Poort gaat nu open. Parkeer uw auto.");
-						try{
-						MainScreen.out.beeps(); //beep als de poort open gaat
-						}catch(Exception e){}
-					}else if(abbonomenten_id==0 && pas_type == 2){
-						System.out.println("Uw abbonement is niet betaald.");
-					}
-					
-				}
-	    	 }catch(Exception e){
-	    		 uitrijden(pas_id,pas_type,Card_ID);
-	    	 }
-			
-		}else if(eindtijd == null){
-			uitrijden(pas_id,pas_type, Card_ID);
-		}
 		
-		//Rekeningsnummer selecteren van de Card_ID
-		if(databaseCitypark.query("SELECT Gebruiker_Gebruiker_ID FROM pas WHERE Cardid = '"+Card_ID+"'")){			
-			res = databaseCitypark.getResult();
-			int gebruiker_id = 0;
-			for(Map<String, Object> row : res) {
-				gebruiker_id =  (int) row.get("Gebruiker_Gebruiker_ID");
+		int pas_id = getPasId(Card_ID);	
+		if (Card_ID.equals("STX EED6326ACR LF ") || Card_ID.equals("STX D4F9374CCR LF ")) {
+			afrekenen(pas_id,Card_ID, bedrag);
+		}else{				
+			int pas_type = getPasType(pas_id);
+			if (pas_type==1) {
+				pas_id2 = pas_id;
+				System.out.println(pas_id2);
 			}
-			databaseCitypark.query("SELECT Rekeningsnummer FROM gebruiker WHERE Gebruiker_ID = '"+gebruiker_id+"'");
+			//Alle begin en eindtijden selecteren van het geselecteerde Pas_ID
+			databaseCitypark.query("Select Begintijd, Eindtijd FROM inrijden WHERE Pas_Pas_ID = '"+pas_id+"' ORDER BY Begintijd ASC");
 			res = databaseCitypark.getResult();
-			int rekeningsnummer = 0;
-			for(Map<String, Object> row : res) {
-				rekeningsnummer =  (int) row.get("Rekeningsnummer");
+			Timestamp eindtijd = null;
+			Timestamp begintijd = null;
+			//for(Map<String, Object> row : res) {
+			for(int i = 0; i < res.size(); i++) { 
+				eindtijd =  (Timestamp) res.get(i).get("Eindtijd");
+				begintijd =  (Timestamp) res.get(i).get("Begintijd");
+			}		
+			//timestamp aanmaken van huidige tijd
+			java.util.Date date= new java.util.Date();
+		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		    String formattedDate = sdf.format(date);
+		    Timestamp test = Timestamp.valueOf(formattedDate);
+			//als er geen begin of eind tijden zijn voor de gebruiker, insert dan een nieuwe record met de huidige tijd
+		     if(eindtijd != null || res.isEmpty()){
+		    	 try{
+					if(begintijd == null || (test.after(eindtijd))){
+						databaseCitypark.update("SELECT Uren_Dezeweek FROM abbonementen WHERE Pas_Pas_ID = '"+pas_id+"'");
+						int uren_dezeweek = 0;
+						res = databaseCitypark.getResult();
+					     for(Map<String, Object> row : res) {
+					    	 uren_dezeweek =  (int) row.get("Uren_Dezeweek");	     
+					     }	
+					     //abbonomenten id zoeken
+					     databaseCitypark.query("Select Abbonoment_ID FROM abbonementen WHERE Pas_Pas_ID = '"+pas_id+"' AND Betaald = 1");
+					     res = databaseCitypark.getResult();
+					     int abbonomenten_id = 0;
+					     for(Map<String, Object> row : res) {
+					    	 abbonomenten_id =  (int) row.get("Abbonoment_ID");	     
+					     }
+					     String insertQueryMet = ("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Abbonementen_Abbonoment_ID, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0,'"+abbonomenten_id+"','"+pas_id+"')");
+						String insertQueryZonder = ("INSERT INTO inrijden (Begintijd, Eindtijd, Betaald, Pas_Pas_ID) VALUES ('"+formattedDate+"',NULL, 0, '"+pas_id+"')");		
+						if(pas_type==4 && uren_dezeweek <32){
+							if(databaseCitypark.update(insertQueryMet)){
+								System.out.println("Welkom bezoeker! Poort gaat nu open. Parkeer uw auto.");
+								try{
+								MainScreen.out.beeps(); //beep als de poort open gaat
+								}catch(Exception e){}				
+							}else{
+								System.out.println("Deze bezoekerpas is niet gekoppeld aan een abbonement!");
+							}
+						}
+									
+						if(abbonomenten_id==0 && pas_type == 1){
+							if(databaseCitypark.update(insertQueryZonder)){
+								System.out.println("Welkom! Poort gaat nu open. Parkeer uw auto.");
+								try{
+								MainScreen.out.beeps(); //beep als de poort open gaat
+								}catch(Exception e){}				
+							}else{
+									System.out.println("error query zonder");
+							}	
+						}else if(abbonomenten_id != 0 && pas_type != 4){
+							databaseCitypark.update(insertQueryMet);
+							System.out.println("Welkom abonnee! Poort gaat nu open. Parkeer uw auto.");
+							try{
+							MainScreen.out.beeps(); //beep als de poort open gaat
+							}catch(Exception e){}
+						}else if(abbonomenten_id==0 && pas_type == 2){
+							System.out.println("Uw abbonement is niet betaald.");
+						}
+						
+					}
+		    	 }catch(Exception e){
+		    		 uitrijden(pas_id,pas_type,Card_ID);
+		    	 }
+				
+			}else if(eindtijd == null){
+				uitrijden(pas_id,pas_type, Card_ID);
+			}
+			
+			//Rekeningsnummer selecteren van de Card_ID
+			if(databaseCitypark.query("SELECT Gebruiker_Gebruiker_ID FROM pas WHERE Cardid = '"+Card_ID+"'")){			
+				res = databaseCitypark.getResult();
+				int gebruiker_id = 0;
+				for(Map<String, Object> row : res) {
+					gebruiker_id =  (int) row.get("Gebruiker_Gebruiker_ID");
+				}
+				databaseCitypark.query("SELECT Rekeningsnummer FROM gebruiker WHERE Gebruiker_ID = '"+gebruiker_id+"'");
+				res = databaseCitypark.getResult();
+				int rekeningsnummer = 0;
+				for(Map<String, Object> row : res) {
+					rekeningsnummer =  (int) row.get("Rekeningsnummer");
+				}
 			}
 		}
 	}
@@ -175,9 +182,11 @@ public class Initialize {
 		if(pas_type == 1){
 			
 			BetalingsAfhandeling betaling = new BetalingsAfhandeling(pas_id);
+			while(betaling.getBetaling() == 0){				
+			}
 			bedrag = betaling.getBetaling();
 			databaseCitypark.update("UPDATE inrijden SET eindtijd=null, betaald = 0 WHERE Pas_Pas_ID='"+pas_id+"';");
-			System.out.println("Te betalen bedrag: "+bedrag+"\nVoer uw bank pas in.");			
+			System.out.println("Te betalen bedrag: "+bedrag+"\nVoer uw bank pas in.");	
 			afrekenen(pas_id,Card_ID,bedrag);
 		}else{
 			poortOpenen();
@@ -200,8 +209,12 @@ public class Initialize {
 				int rekeningnmr =0;
 				if(Card_ID.equals("STX EED6326ACR LF ")){rekeningnmr = 459;}
 				else if(Card_ID.equals("STX D4F9374CCR LF ")){rekeningnmr = 111;}
-				new PinView(rekeningnmr, bedrag);
-				databaseCitypark.update("UPDATE inrijden SET eindtijd='"+formattedDate+"', betaald = 1 WHERE Pas_Pas_ID='"+pas_id+"';");
+				databaseCitypark.update("UPDATE inrijden SET eindtijd='"+formattedDate+"', betaald = 1 WHERE Pas_Pas_ID='"+pas_id2+"';");
+				
+				PinView pinview = new PinView(rekeningnmr, bedrag);
+				while(!pinview.getBetaald()){
+				}
+				poortOpenen();				
 			}catch(Exception e){
 				e.getStackTrace();
 				System.out.println("Connectie met de bank kon niet gelegd worden.");

@@ -27,6 +27,14 @@ public class BetalingsAfhandeling {
 	public BetalingsAfhandeling(int ID){
 		try{	
 			pasID = ID;
+			//java.util.Date date= new java.util.Date();
+			Date date= new Date();
+	         //getTime() returns current time in milliseconds
+			long time = date.getTime();
+	         //Passed the milliseconds to constructor of Timestamp class 
+		 	finish = new Timestamp(time);
+		 	System.out.println("Current Time Stamp: "+finish);
+		    
 			init();
 			firstQuery();
 		} catch(Exception e){
@@ -40,24 +48,24 @@ public class BetalingsAfhandeling {
 	}
 	
 	public void firstQuery(){
-		connection.query("Select Begintijd, Eindtijd FROM Inrijden WHERE Pas_Pas_ID = '"+pasID+"' ORDER BY Begintijd DESC");
+		connection.query("Select Begintijd FROM Inrijden WHERE Pas_Pas_ID = '"+pasID+"' ORDER BY Begintijd DESC");
 		list = connection.getResult();		
 		for(int i = 0; i < list.size(); i++) {   
-			nextInc((Timestamp)list.get(i).get("Begintijd"), (Timestamp)list.get(i).get("Eindtijd"));
+			nextInc((Timestamp)list.get(i).get("Begintijd"));
 			System.out.println((Timestamp)list.get(i).get("Eindtijd"));
 		}
 	}
 	
-	public void nextInc(Timestamp begin, Timestamp eind){
+	public void nextInc(Timestamp begin){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		start = begin;
-		finish = eind;
         cal = Calendar.getInstance();
         cal.setTimeInMillis(start.getTime());
         start = Timestamp.valueOf(sdf.format(cal.getTime()));
         HashMap<String, Object> tarief;
         while(!(finish.before(start))){
         	tarief = getTarief();
+        	System.out.println(tarief);
         	//System.out.println("Verstreken tijd: "+hCount+" uur"+"Bedrag: "+bedrag);
 	        	if(bedrag < (double)tarief.get("max")){
 		        	bedrag += (double)tarief.get("bedragpuur")/2;
@@ -94,10 +102,15 @@ public class BetalingsAfhandeling {
 		String dtmidnight = null;
 		String dtmorning = null;
 		String dtevening = null;
-		Date date;
+		Date date = new Date(timeTemp.getTime());
+		Calendar temp = Calendar.getInstance();
+		temp.setTime(date);
+		temp.add(Calendar.DATE, -1);
+		String dbDatemid = sdf.format(temp.getTime());
+		
 		
 		try {
-			dtmidnight = dbDate+ " " + "23:59:59.0";
+			dtmidnight = dbDatemid+ " " + "23:59:59.0";
 			date = (Date) dateFormat.parse(dtmidnight);
 			dtmidnight = dateFormat.format(date);
 			dtmorning = dbDate+ " " + "06:00:00.0";
