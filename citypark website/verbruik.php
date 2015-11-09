@@ -8,6 +8,16 @@ $query  .= " WHERE abbonementtype_abbonementtype = 1  ";
 $query  .= "  AND `Gebruikersnaam` = '$username' ";
 
 $result = mysqli_query($connection, $query);
+
+
+$query1  = " SELECT * FROM `gebruiker` ";
+$query1 .= " JOIN pas on gebruiker.Gebruiker_ID=pas.Gebruiker_Gebruiker_ID ";
+$query1 .= " JOIN abbonementen on abbonementen.Pas_Pas_ID=pas.Pas_ID  ";
+$query1 .= " JOIN inrijden on abbonementen.Abbonoment_ID=inrijden.Abbonementen_Abbonoment_ID ";
+$query1 .= " WHERE abbonementtype_abbonementtype = 1   ";
+$query1 .= " AND `Gebruikersnaam` = '$username'   ";
+
+$result1 = mysqli_query($connection, $query1);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -79,6 +89,19 @@ $result = mysqli_query($connection, $query);
                 echo $subject1["Uren_Dezeweek"];
                 echo " uren verbruikt van uw bezoekerspas</br>";
             }
+
+            echo "</br><u>Parkeergeschiedenis:</u></br></br>";
+            while($subject2 = mysqli_fetch_assoc($result1)) {
+                echo "<b>Begintijd</b> &nbsp&nbsp&nbsp&nbsp ";
+                echo $subject2["Begintijd"];
+                echo "&nbsp&nbsp&nbsp&nbsp<b>Eindtijd</b> &nbsp&nbsp&nbsp&nbsp";
+                echo $subject2["Eindtijd"];
+                echo "</br>";
+
+            }
+
+
+
 
             ?>
             </br>
